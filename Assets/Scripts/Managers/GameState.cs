@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public enum Stage
@@ -44,22 +45,70 @@ public class GameState
     public void SaveGame()
     {
         lastSavedTime = DateTime.Now;
-        TimeSpan timeSpan = lastSavedTime - lastStartTime;
-        playTimeSeconds += (float)timeSpan.TotalSeconds;
+        UpdatePlayTimeSeconds(lastSavedTime, lastStartTime);
         lastStartTime = lastSavedTime;
+    }
+
+    public void PauseGame()
+    {
+        if (stage == Stage.Stage1 || stage == Stage.Stage2 || stage == Stage.Stage3)
+        {
+            lastSavedTime = DateTime.Now;
+        }
     }
 
     public void ResumeGame()
     {
-        lastStartTime = DateTime.Now;
+        if (stage == Stage.Stage1 || stage == Stage.Stage2 || stage == Stage.Stage3)
+        {
+            lastStartTime = DateTime.Now;
+        }
     }
 
     public void EndGame()
     {
         endTime = DateTime.Now;
-        TimeSpan timeSpan = endTime - lastStartTime;
+        stage = Stage.Victory;
+        UpdatePlayTimeSeconds(endTime, lastStartTime);
+    }
+
+    void UpdatePlayTimeSeconds(DateTime start, DateTime end)
+    {
+        TimeSpan timeSpan = end - start;
         playTimeSeconds += (float)timeSpan.TotalSeconds;
     }
 
-
+    public void AdvanceToNextStage()
+    {
+        switch (stage)
+        {
+            case Stage.Story1:
+                stage = Stage.Stage1;
+                ResumeGame();
+                break;
+            case Stage.Stage1:
+                PauseGame();
+                stage = Stage.Story2;
+                break;
+            case Stage.Story2:
+                stage = Stage.Stage2;
+                ResumeGame();
+                break;
+            case Stage.Stage2:
+                PauseGame();
+                stage = Stage.Story3;
+                break;
+            case Stage.Story3:
+                stage = Stage.Stage3;
+                ResumeGame();
+                break;
+            case Stage.Stage3:
+                PauseGame();
+                stage = Stage.Victory;
+                break;
+            default:
+                Debug.Log("Game has ended");
+                break;
+        }
+    }
 }
