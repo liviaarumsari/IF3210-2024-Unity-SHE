@@ -7419,6 +7419,10 @@ PrefabInstance:
       propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].value
       value: 0.098415375
       objectReference: {fileID: 0}
+    - target: {fileID: 5799477743049315596, guid: 5fcee82e62c55af4bad26c0b3553b1d6, type: 3}
+      propertyPath: m_Lightmapping
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6622397034692892461, guid: 5fcee82e62c55af4bad26c0b3553b1d6, type: 3}
       propertyPath: m_Name
       value: PlayerSimple
