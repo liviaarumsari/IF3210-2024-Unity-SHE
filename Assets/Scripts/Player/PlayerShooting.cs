@@ -10,9 +10,9 @@ namespace Nightmare
         public int damagePerShot = 20;
         public float timeBetweenBullets = 0.15f;
         public float range = 100f;
-        public GameObject grenade;
-        public float grenadeSpeed = 200f;
-        public float grenadeFireDelay = 0.5f;
+        //public GameObject grenade;
+        //public float grenadeSpeed = 200f;
+        //public float grenadeFireDelay = 0.5f;
 
         float timer;
         Ray shootRay = new Ray();
@@ -22,7 +22,7 @@ namespace Nightmare
         LineRenderer gunLine;
         AudioSource gunAudio;
         Light gunLight;
-		public Light faceLight;
+		//public Light faceLight;
         float effectsDisplayTime = 0.2f;
         int grenadeStock = 99;
   
@@ -31,7 +31,7 @@ namespace Nightmare
         void Awake ()
         {
             // Create a layer mask for the Shootable layer.
-            shootableMask = LayerMask.GetMask ("Shootable", "Enemy");
+            shootableMask = LayerMask.GetMask ("Shootable");
 
             // Set up the references.
             gunParticles = GetComponent<ParticleSystem> ();
@@ -40,25 +40,25 @@ namespace Nightmare
             gunLight = GetComponent<Light> ();
 			//faceLight = GetComponentInChildren<Light> ();
 
-            AdjustGrenadeStock(0);
+            //AdjustGrenadeStock(0);
 
-            listener = new UnityAction(CollectGrenade);
+            //listener = new UnityAction(CollectGrenade);
 
-            EventManager.StartListening("GrenadePickup", CollectGrenade);
+            //EventManager.StartListening("GrenadePickup", CollectGrenade);
 
             StartPausible();
         }
 
         void OnDestroy()
         {
-            EventManager.StopListening("GrenadePickup", CollectGrenade);
+            //EventManager.StopListening("GrenadePickup", CollectGrenade);
             StopPausible();
         }
 
         void Update ()
         {
-            if (isPaused)
-                return;
+            //if (isPaused)
+            //    return;
 
             // Add the time since Update was last called to the timer.
             timer += Time.deltaTime;
@@ -67,14 +67,14 @@ namespace Nightmare
             if (timer >= timeBetweenBullets && Time.timeScale != 0)
             {
                 // If the Fire1 button is being press and it's time to fire...
-                if (Input.GetButton("Fire2") && grenadeStock > 0)
-                {
-                    // ... shoot a grenade.
-                    ShootGrenade();
-                }
+                //if (Input.GetButton("Fire2") && grenadeStock > 0)
+                //{
+                //    // ... shoot a grenade.
+                //    ShootGrenade();
+                //}
 
                 // If the Fire1 button is being press and it's time to fire...
-                else if (Input.GetButton("Fire1"))
+                if (Input.GetButton("Fire1"))
                 {
                     // ... shoot the gun.
                     Shoot();
@@ -102,7 +102,7 @@ namespace Nightmare
         {
             // Disable the line renderer and the light.
             gunLine.enabled = false;
-			faceLight.enabled = false;
+			//faceLight.enabled = false;
             gunLight.enabled = false;
         }
 
@@ -117,7 +117,7 @@ namespace Nightmare
 
             // Enable the lights.
             gunLight.enabled = true;
-			faceLight.enabled = true;
+			//faceLight.enabled = true;
 
             // Stop the particles from playing if they were, then start the particles.
             gunParticles.Stop ();
@@ -166,26 +166,26 @@ namespace Nightmare
             gunLine.widthCurve = curve;
         }
 
-        public void CollectGrenade()
-        {
-            AdjustGrenadeStock(1);
-        }
+        //public void CollectGrenade()
+        //{
+        //    AdjustGrenadeStock(1);
+        //}
 
-        private void AdjustGrenadeStock(int change)
-        {
-            grenadeStock += change;
-            GrenadeManager.grenades = grenadeStock;
-        }
+        //private void AdjustGrenadeStock(int change)
+        //{
+        //    grenadeStock += change;
+        //    GrenadeManager.grenades = grenadeStock;
+        //}
 
-        void ShootGrenade()
-        {
-            AdjustGrenadeStock(-1);
-            timer = timeBetweenBullets - grenadeFireDelay;
-            GameObject clone = PoolManager.Pull("Grenade", transform.position, Quaternion.identity);
-            EventManager.TriggerEvent("ShootGrenade", grenadeSpeed * transform.forward);
-            //GameObject clone = Instantiate(grenade, transform.position, Quaternion.identity);
-            //Grenade grenadeClone = clone.GetComponent<Grenade>();
-            //grenadeClone.Shoot(grenadeSpeed * transform.forward);
-        }
+        //void ShootGrenade()
+        //{
+        //    AdjustGrenadeStock(-1);
+        //    timer = timeBetweenBullets - grenadeFireDelay;
+        //    GameObject clone = PoolManager.Pull("Grenade", transform.position, Quaternion.identity);
+        //    EventManager.TriggerEvent("ShootGrenade", grenadeSpeed * transform.forward);
+        //    //GameObject clone = Instantiate(grenade, transform.position, Quaternion.identity);
+        //    //Grenade grenadeClone = clone.GetComponent<Grenade>();
+        //    //grenadeClone.Shoot(grenadeSpeed * transform.forward);
+        //}
     }
 }

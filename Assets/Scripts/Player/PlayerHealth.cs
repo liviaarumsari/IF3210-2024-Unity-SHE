@@ -19,7 +19,7 @@ namespace Nightmare
         Animator anim;
         AudioSource playerAudio;
         PlayerMovementSimple playerMovement;
-        // PlayerShooting playerShooting;
+         PlayerShooting playerShooting;
         bool isDead;
         bool damaged;
 
@@ -29,7 +29,7 @@ namespace Nightmare
             anim = GetComponent<Animator>();
             playerAudio = GetComponent<AudioSource>();
             playerMovement = GetComponent<PlayerMovementSimple>();
-            // playerShooting = GetComponentInChildren<PlayerShooting>();
+             playerShooting = GetComponentInChildren<PlayerShooting>();
 
             ResetPlayer();
         }
@@ -97,7 +97,7 @@ namespace Nightmare
             isDead = true;
 
             // Turn off any remaining shooting effects.
-            // playerShooting.DisableEffects();
+             playerShooting.DisableEffects();
 
             // Tell the animator that the player is dead.
             anim.SetBool("IsDead", true);
@@ -108,7 +108,7 @@ namespace Nightmare
 
             // Turn off the movement and shooting scripts.
             playerMovement.enabled = false;
-            // playerShooting.enabled = false;
+             playerShooting.enabled = false;
         }
 
         public void RestartLevel()

@@ -5,11 +5,11 @@ namespace Nightmare
     public class EnemyHealth : MonoBehaviour
     {
         public int startingHealth = 100;
+        public int currentHealth;
         public float sinkSpeed = 2.5f;
         public int scoreValue = 10;
         public AudioClip deathClip;
 
-        int currentHealth;
         Animator anim;
         AudioSource enemyAudio;
         ParticleSystem hitParticles;
@@ -23,6 +23,8 @@ namespace Nightmare
             hitParticles = GetComponentInChildren <ParticleSystem> ();
             capsuleCollider = GetComponent <CapsuleCollider> ();
             enemyMovement = this.GetComponent<EnemyMovement>();
+
+            currentHealth = startingHealth;
         }
 
         void OnEnable()
@@ -89,7 +91,8 @@ namespace Nightmare
             GetComponent <UnityEngine.AI.NavMeshAgent> ().enabled = false;
             SetKinematics(true);
 
-            ScoreManager.score += scoreValue;
+            //ScoreManager.score += scoreValue;
+            Destroy(gameObject, 2f);
         }
 
         public int CurrentHealth()

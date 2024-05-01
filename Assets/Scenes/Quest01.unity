@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.08020267, g: 0.09960288, b: 0.3010257, a: 1}
+  m_IndirectSpecularColor: {r: 0.08033866, g: 0.09972111, b: 0.3009467, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3213,31 +3213,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 899427053}
   m_Mesh: {fileID: -6771101535060161660, guid: 135fa340b65c75f4baf2068625e534ec, type: 3}
---- !u!1 &927630067 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6622397034692892461, guid: 5fcee82e62c55af4bad26c0b3553b1d6, type: 3}
-  m_PrefabInstance: {fileID: 129089605787457479}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &927630073
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 927630067}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c32067ea884548644b13cf9baddd4573, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startingHealth: 100
-  currentHealth: 0
-  healthSlider: {fileID: 238283520}
-  damageImage: {fileID: 2068078615}
-  deathClip: {fileID: 8300000, guid: d36a393bca4582043982db9089e1694f, type: 3}
-  flashSpeed: 5
-  flashColour: {r: 1, g: 0, b: 0, a: 0.1}
-  godMode: 0
 --- !u!1 &981428421
 GameObject:
   m_ObjectHideFlags: 0
@@ -6375,6 +6350,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeBetweenAttacks: 0.5
   attackDamage: 10
+--- !u!114 &1925035567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1925035556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa10cc87aff30c04dbe0aa648f5b6adc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startingHealth: 100
+  currentHealth: 0
+  sinkSpeed: 2.5
+  scoreValue: 10
+  deathClip: {fileID: 8300000, guid: 1d3bfb9269f136947bf8ac164cace1ff, type: 3}
 --- !u!1001 &1934490188
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6484,6 +6476,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 100002, guid: e5171f72421770240bd7c3989fe351e3, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1925035566}
+    - targetCorrespondingSourceObject: {fileID: 100002, guid: e5171f72421770240bd7c3989fe351e3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1925035567}
   m_SourcePrefab: {fileID: 100100000, guid: e5171f72421770240bd7c3989fe351e3, type: 3}
 --- !u!1 &1996827397
 GameObject:
@@ -7416,13 +7411,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 880461033940897032, guid: 5fcee82e62c55af4bad26c0b3553b1d6, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].time
+      value: 0.023979187
+      objectReference: {fileID: 0}
+    - target: {fileID: 880461033940897032, guid: 5fcee82e62c55af4bad26c0b3553b1d6, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].value
+      value: 0.098415375
+      objectReference: {fileID: 0}
     - target: {fileID: 6622397034692892461, guid: 5fcee82e62c55af4bad26c0b3553b1d6, type: 3}
       propertyPath: m_Name
       value: PlayerSimple
-      objectReference: {fileID: 0}
-    - target: {fileID: 6622397034692892461, guid: 5fcee82e62c55af4bad26c0b3553b1d6, type: 3}
-      propertyPath: m_TagString
-      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 6622397034693380883, guid: 5fcee82e62c55af4bad26c0b3553b1d6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7464,13 +7463,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8837602571499588349, guid: 5fcee82e62c55af4bad26c0b3553b1d6, type: 3}
+      propertyPath: damageImage
+      value: 
+      objectReference: {fileID: 2068078615}
+    - target: {fileID: 8837602571499588349, guid: 5fcee82e62c55af4bad26c0b3553b1d6, type: 3}
+      propertyPath: healthSlider
+      value: 
+      objectReference: {fileID: 238283520}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6622397034692892461, guid: 5fcee82e62c55af4bad26c0b3553b1d6, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 927630073}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5fcee82e62c55af4bad26c0b3553b1d6, type: 3}
 --- !u!1001 &7900110282723646685
 PrefabInstance:
