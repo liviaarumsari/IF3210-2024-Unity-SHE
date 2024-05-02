@@ -113,7 +113,7 @@ namespace Nightmare
 
         public void RestartLevel()
         {
-            EventManager.TriggerEvent("GameOver");
+            //EventManager.TriggerEvent("GameOver");
         }
     }
 }

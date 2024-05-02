@@ -5152,8 +5152,8 @@ LineRenderer:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0
-        value: 0.7460327
+        time: 0.023979187
+        value: 0.098415375
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -5255,7 +5255,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 4
+  m_Lightmapping: 1
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -5377,7 +5377,3 @@ MonoBehaviour:
   damagePerShot: 20
   timeBetweenBullets: 0.15
   range: 100
-  grenade: {fileID: 0}
-  grenadeSpeed: 200
-  grenadeFireDelay: 0.5
-  faceLight: {fileID: 0}

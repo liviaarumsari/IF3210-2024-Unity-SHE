@@ -135,7 +135,7 @@ namespace Nightmare
             if(Physics.Raycast (shootRay, out shootHit, range, shootableMask))
             {
                 // Try and find an EnemyHealth script on the gameobject hit.
-                EnemyHealth enemyHealth = shootHit.collider.GetComponent <EnemyHealth> ();
+                EnemyHealthSimple enemyHealth = shootHit.collider.GetComponent <EnemyHealthSimple> ();
 
                 // If the EnemyHealth component exist...
                 if(enemyHealth != null)
