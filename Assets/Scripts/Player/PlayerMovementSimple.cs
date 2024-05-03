@@ -6,6 +6,7 @@ using UnitySampleAssets.CrossPlatformInput;
 public class PlayerMovementSimple : MonoBehaviour
 {
     public float speed = 6f;            // The speed that the player will move at.
+    public bool inShopArea = false;
 
 
     Vector3 movement;                   // The vector to store the direction of the player's movement.
@@ -13,6 +14,9 @@ public class PlayerMovementSimple : MonoBehaviour
     Rigidbody playerRigidbody;          // Reference to the player's rigidbody.
     int floorMask;                      // A layer mask so that a ray can be cast just at gameobjects on the floor layer.
     float camRayLength = 100f;          // The length of the ray from the camera into the scene.
+
+    [SerializeField] private ShopMsg shopMsg;
+    [SerializeField] private ShopUI shopUi;
 
     void Awake()
     {
@@ -38,6 +42,19 @@ public class PlayerMovementSimple : MonoBehaviour
 
         // Animate the player.
         Animating(h, v);
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            IShopCustomer customer = this.gameObject.GetComponent<IShopCustomer>();
+            if (inShopArea && customer != null)
+            {
+                shopUi.Show(customer);
+            }
+            else if(customer != null)
+            {
+                StartCoroutine(ShowShopNotInRange(1.5f));
+            }
+        }
     }
 
 
@@ -87,5 +104,12 @@ public class PlayerMovementSimple : MonoBehaviour
 
         // Tell the animator whether or not the player is walking.
         anim.SetBool("IsWalking", walking);
+    }
+
+    private IEnumerator ShowShopNotInRange(float duration)
+    {
+        shopMsg.Show();
+        yield return new WaitForSeconds(duration);
+        shopMsg.Hide();
     }
 }
