@@ -1000,6 +1000,7 @@ GameObject:
   - component: {fileID: 930813845}
   - component: {fileID: 930813848}
   - component: {fileID: 930813847}
+  - component: {fileID: 930813849}
   m_Layer: 5
   m_Name: ShopNotInAreaMsg
   m_TagString: Untagged
@@ -1064,6 +1065,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 930813844}
   m_CullTransparentMesh: 1
+--- !u!114 &930813849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 930813844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf605cfcdc6654048a798c608154676b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &940356690
 GameObject:
   m_ObjectHideFlags: 0
@@ -1539,6 +1552,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec5783a63e235ec468d9d0c0fe3d7826, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1711406654
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1711406636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3eb5c9ec835cc0345bdb5d5ed0cc784b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 6
+  inShopArea: 0
+  shopMsg: {fileID: 930813849}
+  shopUi: {fileID: 969836535}
 --- !u!1 &1727777045
 GameObject:
   m_ObjectHideFlags: 0
@@ -1801,12 +1830,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1912296853832544343, guid: 5fcee82e62c55af4bad26c0b3553b1d6, type: 3}
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 6622397034692892517, guid: 5fcee82e62c55af4bad26c0b3553b1d6, type: 3}
+    - {fileID: 6622397034692892513, guid: 5fcee82e62c55af4bad26c0b3553b1d6, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 6622397034692892461, guid: 5fcee82e62c55af4bad26c0b3553b1d6, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1711406644}
+    - targetCorrespondingSourceObject: {fileID: 6622397034692892461, guid: 5fcee82e62c55af4bad26c0b3553b1d6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1711406654}
     - targetCorrespondingSourceObject: {fileID: 6622397034692892461, guid: 5fcee82e62c55af4bad26c0b3553b1d6, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1711406653}
