@@ -9,7 +9,7 @@ namespace Nightmare
         public string[] levels;
 
         private int currentLevel = 0;
-        private Scene currentScene;
+        private UnityEngine.SceneManagement.Scene currentScene;
         private PlayerMovement playerMove;
         private Vector3 playerRespawn;
         private CinematicController cinema;
@@ -47,7 +47,7 @@ namespace Nightmare
             SceneManager.LoadSceneAsync(loadingScene, LoadSceneMode.Additive);
         }
 
-        void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        void OnSceneLoaded(UnityEngine.SceneManagement.Scene scene, LoadSceneMode mode)
         {
             if (mode != LoadSceneMode.Additive)
                 return;
@@ -82,7 +82,7 @@ namespace Nightmare
             }
         }
 
-        void OnSceneUnloaded(Scene scene)
+        void OnSceneUnloaded(UnityEngine.SceneManagement.Scene scene)
         {
 
         }

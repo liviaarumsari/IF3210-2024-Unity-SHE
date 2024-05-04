@@ -37,7 +37,6 @@ public class GameManager : MonoBehaviour
     {
         currentGameState = new GameState(gameSettingsManager);
     }
-
     public void SaveCurrentGame()
     {
         currentGameState.SaveGame();

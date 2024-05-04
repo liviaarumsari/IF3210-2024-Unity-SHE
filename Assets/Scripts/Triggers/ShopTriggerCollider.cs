@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ShopTriggerArea : MonoBehaviour
 {
-    [SerializeField] private ShopMsg shopMsg;
+    [SerializeField] private BannerMsg shopMsg;
     [SerializeField] private ShopUI shopUi;
     // Start is called before the first frame update
     private void OnTriggerEnter(Collider other)

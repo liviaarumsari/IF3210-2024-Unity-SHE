@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnitySampleAssets.CrossPlatformInput;
 
 public class PlayerMovementSimple : MonoBehaviour
 {
     public float speed = 6f;            // The speed that the player will move at.
     public bool inShopArea = false;
+    public bool inQuestArea = false;
 
 
     Vector3 movement;                   // The vector to store the direction of the player's movement.
@@ -15,7 +17,7 @@ public class PlayerMovementSimple : MonoBehaviour
     int floorMask;                      // A layer mask so that a ray can be cast just at gameobjects on the floor layer.
     float camRayLength = 100f;          // The length of the ray from the camera into the scene.
 
-    [SerializeField] private ShopMsg shopMsg;
+    [SerializeField] private BannerMsg shopMsg;
     [SerializeField] private ShopUI shopUi;
 
     void Awake()
@@ -45,15 +47,12 @@ public class PlayerMovementSimple : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            IShopCustomer customer = this.gameObject.GetComponent<IShopCustomer>();
-            if (inShopArea && customer != null)
-            {
-                shopUi.Show(customer);
-            }
-            else if(customer != null)
-            {
-                StartCoroutine(ShowShopNotInRange(1.5f));
-            }
+            HandleShopEvent();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            HandleQuestStart();
         }
     }
 
@@ -111,5 +110,24 @@ public class PlayerMovementSimple : MonoBehaviour
         shopMsg.Show();
         yield return new WaitForSeconds(duration);
         shopMsg.Hide();
+    }
+
+    private void HandleShopEvent()
+    {
+        IShopCustomer customer = this.gameObject.GetComponent<IShopCustomer>();
+        if (inShopArea && customer != null)
+        {
+            shopUi.Show(customer);
+        }
+        else if (customer != null)
+        {
+            StartCoroutine(ShowShopNotInRange(1.5f));
+        }
+    }
+
+    private void HandleQuestStart()
+    {
+        // TODO: Get current quest level from GameState
+        SceneController.Instance.LoadScene(Scene.SceneName.Quest01);
     }
 }

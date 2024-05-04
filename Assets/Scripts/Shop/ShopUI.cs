@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class ShopUI : MonoBehaviour
 {
-    [SerializeField] private ShopMsg shopMsg;
+    [SerializeField] private BannerMsg shopMsg;
     private Transform petsContainer;
     private IShopCustomer customer;
     private Button closeBtn;
