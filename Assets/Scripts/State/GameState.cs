@@ -22,12 +22,12 @@ public class GameState
     DifficultyLevel difficultyLevel;
     Stage stage;
     int score;
-    float money;
     int shots;
     int shotsOnTarget;
     float distance;
     float playTimeSeconds;
     float health;
+    Pet[] pets;
     DateTime startTime;
     DateTime endTime;
     DateTime lastSavedTime;
