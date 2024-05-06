@@ -10,10 +10,13 @@ namespace Nightmare
         public int scoreValue = 10;
         public AudioClip deathClip;
 
+        private bool isSinking = false;
+
         Animator anim;
         AudioSource enemyAudio;
         ParticleSystem hitParticles;
         CapsuleCollider capsuleCollider;
+        SphereCollider sphereCollider;
         //EnemyMovementSimple enemyMovement;
 
         void Awake ()
@@ -22,6 +25,7 @@ namespace Nightmare
             enemyAudio = GetComponent <AudioSource> ();
             hitParticles = GetComponentInChildren <ParticleSystem> ();
             capsuleCollider = GetComponent <CapsuleCollider> ();
+            sphereCollider = GetComponent<SphereCollider>();
             //enemyMovement = GetComponent<EnemyMovementSimple>();
 
             currentHealth = startingHealth;
@@ -41,7 +45,7 @@ namespace Nightmare
 
         void Update ()
         {
-            if (IsDead())
+            if (IsDead() && isSinking)
             {
                 transform.Translate (-Vector3.up * sinkSpeed * Time.deltaTime);
                 if (transform.position.y < -10f)
@@ -86,13 +90,21 @@ namespace Nightmare
             enemyAudio.Play ();
         }
 
-        public void StartSinking ()
+        void Sink()
+        {
+            isSinking = true;
+            Destroy(gameObject, 2f);
+        }
+
+        public void StartSinking()
         {
             GetComponent <UnityEngine.AI.NavMeshAgent> ().enabled = false;
             SetKinematics(true);
+            capsuleCollider.enabled = false;
+            sphereCollider.enabled = false;
 
             ScoreManager.score += scoreValue;
-            Destroy(gameObject, 2f);
+            Invoke("Sink", 1f);
         }
 
         public int CurrentHealth()

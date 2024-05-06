@@ -138,7 +138,7 @@ namespace Nightmare
                 EnemyHealthSimple enemyHealth = shootHit.collider.GetComponent <EnemyHealthSimple> ();
 
                 // If the EnemyHealth component exist...
-                if(enemyHealth != null)
+                if (enemyHealth != null)
                 {
                     // ... the enemy should take damage.
                     enemyHealth.TakeDamage (damagePerShot, shootHit.point);
