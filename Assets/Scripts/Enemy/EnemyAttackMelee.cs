@@ -14,6 +14,7 @@ namespace Nightmare
         EnemyHealthSimple enemyHealth;
         bool playerInRange;
         float timer;
+        bool isSpawned = true;
 
         void Awake ()
         {
@@ -46,6 +47,7 @@ namespace Nightmare
 
         void Update ()
         {
+            if (!isSpawned) return;
             
             // Add the time since Update was last called to the timer.
             timer += Time.deltaTime;
@@ -70,6 +72,12 @@ namespace Nightmare
                 // ... damage the player.
                 playerHealth.TakeDamage (attackDamage);
             }
+        }
+
+        public void FinishSpawnAnimAttack()
+        {
+            Debug.Log("Finish Anim Attack");
+            isSpawned = true;
         }
     }
 }
