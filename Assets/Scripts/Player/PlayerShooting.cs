@@ -24,7 +24,7 @@ namespace Nightmare
         Light gunLight;
 		//public Light faceLight;
         float effectsDisplayTime = 0.2f;
-        int grenadeStock = 99;
+        //int grenadeStock = 99;
   
         private UnityAction listener;
 
