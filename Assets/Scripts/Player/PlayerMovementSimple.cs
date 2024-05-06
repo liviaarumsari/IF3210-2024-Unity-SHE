@@ -20,6 +20,9 @@ public class PlayerMovementSimple : MonoBehaviour
     [SerializeField] private BannerMsg shopMsg;
     [SerializeField] private ShopUI shopUi;
 
+    Vector3 lastPosition;
+    GameState gameState;
+
     void Awake()
     {
         // Create a layer mask for the floor layer.
@@ -28,6 +31,19 @@ public class PlayerMovementSimple : MonoBehaviour
         // Set up references.
         anim = GetComponent<Animator>();
         playerRigidbody = GetComponent<Rigidbody>();
+    }
+
+    void Start()
+    {
+        gameState = GameManager.Instance.currentGameState;
+        lastPosition = transform.position;
+    }
+
+    void Update()
+    {
+        float distanceTravelled = Vector3.Distance(transform.position, lastPosition);
+        gameState.AddDistanceTravelled(distanceTravelled);
+        lastPosition = transform.position;
     }
 
     void FixedUpdate()
@@ -53,6 +69,24 @@ public class PlayerMovementSimple : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q))
         {
             HandleQuestStart();
+        }
+
+        // Cheat: Auto advance to next stage
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            gameState.AdvanceToNextStage();
+        }
+
+        // Cheat: Auto victory
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            gameState.EndGame(GameState.Stage.Victory);
+        }
+
+        // Cheat: Auto game over
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            gameState.EndGame(GameState.Stage.GameOver);
         }
     }
 
@@ -127,7 +161,6 @@ public class PlayerMovementSimple : MonoBehaviour
 
     private void HandleQuestStart()
     {
-        // TODO: Get current quest level from GameState
-        SceneController.Instance.LoadScene(Scene.SceneName.Quest01);
+        gameState.AdvanceToNextStage();
     }
 }

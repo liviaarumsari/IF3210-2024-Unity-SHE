@@ -1,12 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
-public class MainMenu : MonoBehaviour
+public class Cutscene01 : MonoBehaviour
 {
     GameManager gameManager;
-   
+
     void Start()
     {
         gameManager = GameManager.Instance;
@@ -14,11 +13,11 @@ public class MainMenu : MonoBehaviour
 
     void Update()
     {
-        
+
     }
 
-    public void OnPlayBtnClick()
+    public void Next()
     {
-        gameManager.StartNewGame();
+        gameManager.currentGameState.AdvanceToNextStage();
     }
 }

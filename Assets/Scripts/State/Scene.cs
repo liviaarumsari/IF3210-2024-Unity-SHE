@@ -6,13 +6,17 @@ public class Scene : MonoBehaviour
     public enum SceneName
     {
         MainMenu,
-        Cutscene01,
         IdleScene,
+        Cutscene01,
+        Cutscene02,
+        Cutscene03,
+        Cutscene04,
         Quest01,
         Quest02,
-        Cutscene02,
         Quest03,
-        Victory
+        Quest04,
+        Victory,
+        GameOver
     }
 
     public static string GetSceneName(SceneName scene)
