@@ -58,6 +58,7 @@ namespace Nightmare
 
         public void TakeDamage (int amount, Vector3 hitPoint)
         {
+            Debug.Log(hitPoint);
             if (!IsDead())
             {
                 enemyAudio.Play();

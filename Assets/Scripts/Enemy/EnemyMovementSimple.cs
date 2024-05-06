@@ -11,9 +11,11 @@ namespace Nightmare
         PlayerHealth playerHealth;
         EnemyHealthSimple enemyHealth;
         NavMeshAgent nav;
+        Animator anim;
 
         void Awake ()
         {
+            anim = GetComponent<Animator>();
             player = GameObject.FindGameObjectWithTag ("Player").transform;
             playerHealth = player.GetComponent<PlayerHealth> ();
             enemyHealth = GetComponent<EnemyHealthSimple> ();
@@ -25,6 +27,7 @@ namespace Nightmare
             if (enemyHealth.currentHealth > 0 && playerHealth.currentHealth > 0)
             {
                 nav.SetDestination(player.position);
+                anim.SetBool("IsMoving", true);
             } else
             {
                 nav.enabled = false;
