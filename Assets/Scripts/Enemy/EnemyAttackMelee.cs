@@ -14,7 +14,7 @@ namespace Nightmare
         EnemyHealthSimple enemyHealth;
         bool playerInRange;
         float timer;
-        bool isSpawned = true;
+        bool isSpawned = false;
 
         void Awake ()
         {
@@ -53,11 +53,16 @@ namespace Nightmare
             timer += Time.deltaTime;
 
             // If the timer exceeds the time between attacks, the player is in range and this enemy is alive...
-            if(timer >= timeBetweenAttacks && playerInRange && enemyHealth.CurrentHealth() > 0)
+            if(timer >= timeBetweenAttacks && playerInRange && enemyHealth.CurrentHealth() > 0 && playerHealth.currentHealth > 0)
             {
                 // ... attack.
                 Attack ();
                 anim.SetTrigger("Attack");
+            }
+
+            if (playerHealth.currentHealth <= 0)
+            {
+                anim.SetTrigger("Cheer");
             }
         }
 
@@ -76,7 +81,6 @@ namespace Nightmare
 
         public void FinishSpawnAnimAttack()
         {
-            Debug.Log("Finish Anim Attack");
             isSpawned = true;
         }
     }

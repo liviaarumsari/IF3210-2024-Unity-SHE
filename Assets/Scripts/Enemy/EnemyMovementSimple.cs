@@ -45,5 +45,15 @@ namespace Nightmare
             nav.enabled = true;
             enemyAttack.FinishSpawnAnimAttack();
         }
+
+        private void OnDisable()
+        {
+            nav.enabled = false;
+        }
+
+        private void OnEnable()
+        {
+            nav.enabled = true;
+        }
     }
 }
