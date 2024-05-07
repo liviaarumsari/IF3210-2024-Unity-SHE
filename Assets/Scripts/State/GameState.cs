@@ -134,6 +134,10 @@ public class GameState
 
     public void AddDistanceTravelled(float distanceTravelled)
     {
+        if (GameConfig.StageToSceneName[currentStage] == Scene.SceneName.IdleScene)
+        {
+            return;
+        }
         totalDistanceTravelled += distanceTravelled;
     }
 
