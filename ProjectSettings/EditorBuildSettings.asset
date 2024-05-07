@@ -15,6 +15,33 @@ EditorBuildSettings:
     path: Assets/Scenes/IdleScene.unity
     guid: 954cca8a843d2254fa38f5d1a8a02c20
   - enabled: 1
+    path: Assets/Scenes/Cutscene01.unity
+    guid: 745c926682deff0408c60564cbfb0f78
+  - enabled: 1
+    path: Assets/Scenes/Cutscene02.unity
+    guid: 362549881de54354daa62bb9fd734d75
+  - enabled: 1
+    path: Assets/Scenes/Cutscene03.unity
+    guid: 5a426e249729f204991dbb8c9b1b3054
+  - enabled: 1
+    path: Assets/Scenes/Cutscene04.unity
+    guid: 86ba4cf480c5d3548a3db40430ae2370
+  - enabled: 1
     path: Assets/Scenes/Quest01.unity
     guid: fa2145c12ddc47b44922fed71d36bc96
+  - enabled: 1
+    path: Assets/Scenes/Quest02.unity
+    guid: 83e4637f8c301b44e852d4f5adaa2e16
+  - enabled: 1
+    path: Assets/Scenes/Quest03.unity
+    guid: 8c621f5bf04e60c41be06d1d2dfddead
+  - enabled: 1
+    path: Assets/Scenes/Quest04.unity
+    guid: 12bd09ffd0f26ca4faf0e5cc7c8ee08e
+  - enabled: 1
+    path: Assets/Scenes/Victory.unity
+    guid: 399a0b99b48470541acd913f79ff9b8d
+  - enabled: 1
+    path: Assets/Scenes/GameOver.unity
+    guid: 8bce05cc59f81144d8d0ec8fddf8fa97
   m_configObjects: {}

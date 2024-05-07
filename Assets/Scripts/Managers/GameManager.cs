@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     GameSettingsManager gameSettingsManager;
 
     // Current game state
-    GameState currentGameState;
+    public GameState currentGameState { get; private set; }
 
     // Saved game states
     List<GameState> savedGameStates = new List<GameState>();
@@ -24,7 +24,6 @@ public class GameManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            gameSettingsManager = GameSettingsManager.Instance;
             DontDestroyOnLoad(gameObject);
         }
         else
@@ -33,10 +32,16 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    void Start()
+    {
+        gameSettingsManager = GameSettingsManager.Instance;
+    }
+
     public void StartNewGame()
     {
         currentGameState = new GameState(gameSettingsManager);
     }
+
     public void SaveCurrentGame()
     {
         currentGameState.SaveGame();
