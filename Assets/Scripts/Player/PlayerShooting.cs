@@ -26,10 +26,14 @@ namespace Nightmare
         float effectsDisplayTime = 0.2f;
   
         private UnityAction listener;
+        private Animator playerAnimator;
 
         [Header("Shotgun")]
         [SerializeField] bool shotgun = false;
         [SerializeField] int bulletsPerShot = 6;
+
+        [Header("Sword")]
+        [SerializeField] bool sword = false;
 
         [Header("Laser")]
         [SerializeField] GameObject laser;
@@ -42,6 +46,8 @@ namespace Nightmare
             // Set up the references.
             gunParticles = GetComponent<ParticleSystem> ();
             gunAudio = GetComponent<AudioSource> ();
+
+            playerAnimator = GetComponentInParent<Animator>();
 
             StartPausible();
         }
@@ -86,7 +92,10 @@ namespace Nightmare
             timer = 0f;
 
             // Play the gun shot audioclip.
-            gunAudio.Play ();
+            if (gunAudio != null)
+            {
+                gunAudio.Play ();
+            }
 
             // Stop the particles from playing if they were, then start the particles.
             gunParticles.Stop ();
@@ -123,6 +132,22 @@ namespace Nightmare
                         // ... set the second position of the line renderer to the fullest extent of the gun's range.
                         //gunLine.SetPosition(1, shootRay.origin + shootRay.direction * range);
                         CreateLaser(shootRay.origin + shootingDir * range);
+                    }
+                }
+            }
+            else if(sword) {
+                Vector3 shootingDir = GetShootingDirection();
+                // Perform the raycast against gameobjects on the shootable layer and if it hits something...
+                if (Physics.Raycast(shootRay.origin, shootingDir, out shootHit, range, shootableMask))
+                {
+                    // Try and find an EnemyHealth script on the gameobject hit.
+                    EnemyHealthSimple enemyHealth = shootHit.collider.GetComponent<EnemyHealthSimple>();
+
+                    // If the EnemyHealth component exist...
+                    if (enemyHealth != null)
+                    {
+                        // ... the enemy should take damage.
+                        enemyHealth.TakeDamage(damagePerShot, shootHit.point);
                     }
                 }
             }
@@ -171,16 +196,16 @@ namespace Nightmare
             LineRenderer lr = Instantiate(laser).GetComponent<LineRenderer>();
             lr.enabled = true;
             lr.SetPositions(new Vector3[2] {transform.position, end});
-            StartCoroutine(DestroyLaserAfterDelay(lr, light));
+            StartCoroutine(DestroyLaserAfterDelay(lr.gameObject, light.gameObject));
         }
 
-        IEnumerator DestroyLaserAfterDelay(LineRenderer lr, Light light)
+        IEnumerator DestroyLaserAfterDelay(GameObject lrGameObject, GameObject lightGameObject)
         {
             yield return new WaitForSeconds(timeBetweenBullets * effectsDisplayTime);
 
-            // Destroy the laser objects
-            Destroy(lr);
-            Destroy(light);
+            // Destroy the laser GameObjects
+            Destroy(lrGameObject);
+            Destroy(lightGameObject);
         }
     }
 }
