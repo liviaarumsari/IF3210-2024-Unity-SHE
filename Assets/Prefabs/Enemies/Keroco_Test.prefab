@@ -1053,7 +1053,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 02e6208ec76314158a9f548f51fe9f11, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -1151,8 +1151,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnRadius: 5
-  spawnableEnemy: {fileID: 0}
-  spawnTime: 3
+  spawnableEnemy: {fileID: 6990273068935890159}
+  startDelay: 3
+  waitTime: 3
   playerHealth: {fileID: 0}
 --- !u!4 &7658829651658612309 stripped
 Transform:
