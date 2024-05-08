@@ -35,14 +35,14 @@ public class PlayerMovementSimple : MonoBehaviour
 
     void Start()
     {
-        //gameState = GameManager.Instance.currentGameState;
+        gameState = GameManager.Instance.currentGameState;
         lastPosition = transform.position;
     }
 
     void Update()
     {
         float distanceTravelled = Vector3.Distance(transform.position, lastPosition);
-        //gameState.AddDistanceTravelled(distanceTravelled);
+        gameState.AddDistanceTravelled(distanceTravelled);
         lastPosition = transform.position;
     }
 
@@ -74,19 +74,19 @@ public class PlayerMovementSimple : MonoBehaviour
         // Cheat: Auto advance to next stage
         if (Input.GetKeyDown(KeyCode.N))
         {
-            //gameState.AdvanceToNextStage();
+            gameState.AdvanceToNextStage();
         }
 
         // Cheat: Auto victory
         if (Input.GetKeyDown(KeyCode.V))
         {
-            //gameState.EndGame(GameState.Stage.Victory);
+            gameState.EndGame(GameState.Stage.Victory);
         }
 
         // Cheat: Auto game over
         if (Input.GetKeyDown(KeyCode.G))
         {
-            //gameState.EndGame(GameState.Stage.GameOver);
+            gameState.EndGame(GameState.Stage.GameOver);
         }
     }
 
@@ -161,6 +161,6 @@ public class PlayerMovementSimple : MonoBehaviour
 
     private void HandleQuestStart()
     {
-        //gameState.AdvanceToNextStage();
+        gameState.AdvanceToNextStage();
     }
 }
