@@ -85,6 +85,7 @@ public class GameManager : MonoBehaviour
 
         if (!File.Exists(path))
         {
+            savedGameStates[slot] = null;
             return;
         }
 

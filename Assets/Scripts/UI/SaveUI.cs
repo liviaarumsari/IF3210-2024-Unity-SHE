@@ -5,16 +5,14 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ShopUI : MonoBehaviour
+public class SaveUI : MonoBehaviour
 {
-    [SerializeField] private BannerMsg shopMsg;
-    private Transform petsContainer;
-    private IShopCustomer customer;
-    private Button closeBtn;
+    [SerializeField] private BannerMsg saveMsg;
+    private int selectedSlot;
 
     private void Awake()
     {
-        petsContainer = transform.Find("PetsContainer");
+        
     }
 
     private void Start()
@@ -27,18 +25,30 @@ public class ShopUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
-    public void Show(IShopCustomer customer)
+    public void Show()
     {
-        shopMsg.Hide(); 
-        this.customer = customer;
+        saveMsg.Hide();
         gameObject.SetActive(true);
     }
 
     public void Hide()
     {
         gameObject.SetActive(false);
+    }
+
+    public void SetSelectedSlot(int slot)
+    {
+        selectedSlot = slot;
+        Debug.Log("current slot");
+    }
+
+
+    public void OnSaveBtnClick()
+    {
+        Debug.Log("[DEBUG] Saving slot: " +  selectedSlot);
+        GameManager.Instance.SaveCurrentGame(selectedSlot);
     }
 }
