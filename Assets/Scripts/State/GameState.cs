@@ -22,31 +22,31 @@ public class GameState
         Victory,
         GameOver
     }
-    
-    GameSettingsManager gameSettingsManager;
-    public DifficultyLevel difficultyLevel { get; private set; }
 
-    int currentStageIndex = 0;
-    Stage currentStage;
-    Stage[] stages = (Stage[])System.Enum.GetValues(typeof(Stage));
+    public GameSettingsManager gameSettingsManager;
+    public DifficultyLevel difficultyLevel;
 
-    public int score { get; private set; }
-    public float health { get; private set; }
+    public int currentStageIndex = 0;
+    public Stage currentStage;
+    public Stage[] stages = (Stage[])System.Enum.GetValues(typeof(Stage));
 
-    int shots = 0;
-    int shotsOnTarget = 0;
-    float totalDistanceTravelled = 0f;
-    double playDuration = 0;
-    int enemiesKilled = 0;
-    float totalDamageReceived = 0f;
-    int orbsPickedUp = 0;
+    public int score;
+    public float health;
 
-    Pet[] pets;
+    public int shots = 0;
+    public int shotsOnTarget = 0;
+    public float totalDistanceTravelled = 0f;
+    public double playDuration = 0;
+    public int enemiesKilled = 0;
+    public float totalDamageReceived = 0f;
+    public int orbsPickedUp = 0;
 
-    DateTime startTime;
-    DateTime endTime;
-    DateTime lastSavedTime;
-    DateTime lastStartTime;
+    public Pet[] pets;
+
+    public DateTime startTime;
+    public DateTime endTime;
+    public DateTime lastSavedTime;
+    public DateTime lastStartTime;
 
     public GameState(GameSettingsManager currentGameSettingsManager)
     {
