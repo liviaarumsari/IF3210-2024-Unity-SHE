@@ -24,7 +24,9 @@ public class GameState
     }
 
     public GameSettingsManager gameSettingsManager;
+    public GameStatisticsManager gameStatisticsManager;
     public DifficultyLevel difficultyLevel;
+    public string playerName;
 
     public int currentStageIndex = 0;
     public Stage currentStage;
@@ -43,56 +45,66 @@ public class GameState
 
     public Pet[] pets;
 
-    public DateTime startTime;
-    public DateTime endTime;
-    public DateTime lastSavedTime;
-    public DateTime lastStartTime;
+    public SerializableDateTime startTime = new SerializableDateTime();
+    public SerializableDateTime endTime = new SerializableDateTime();
+    public SerializableDateTime lastSavedTime = new SerializableDateTime();
+    public SerializableDateTime lastStartTime = new SerializableDateTime();
 
     public GameState(GameSettingsManager currentGameSettingsManager)
     {
         gameSettingsManager = currentGameSettingsManager;
         difficultyLevel = gameSettingsManager.GetDifficultyLevel();
+        playerName = gameSettingsManager.GetPlayerName();
         currentStage = Stage.Cutscene01;
-        startTime = DateTime.Now;
+        startTime.DateTime = DateTime.Now;
         lastStartTime = startTime;
         LoadCurrentStage();
     }
 
     public void SaveGame()
     {
-        lastSavedTime = DateTime.Now;
-        AddPlayDuration(lastSavedTime, lastStartTime);
+        PauseGameTime();
     }
 
     public void LoadGame()
     {
-        ResumeGame();
+        ResumeGameTime();
         LoadCurrentStage();
     }
 
-    public void PauseGame()
+    void PauseGameTime()
     {
-        lastSavedTime = DateTime.Now;
-        AddPlayDuration(lastSavedTime, lastStartTime);
+        lastSavedTime.DateTime = DateTime.Now;
+        AddPlayDuration(lastSavedTime.DateTime, lastStartTime.DateTime);
     }
 
-    public void ResumeGame()
+    void ResumeGameTime()
     {
-        lastStartTime = DateTime.Now;
+        lastStartTime.DateTime = DateTime.Now;
     }
 
     public void EndGame(Stage endStage)
     {
-        endTime = DateTime.Now;
+        if (gameStatisticsManager == null) {
+            gameStatisticsManager = GameStatisticsManager.Instance;
+        }
+
+        endTime.DateTime = DateTime.Now;
         currentStage = endStage;
-        AddPlayDuration(endTime, lastStartTime);
+        AddPlayDuration(endTime.DateTime, lastStartTime.DateTime);
+
+        gameStatisticsManager.AddStatistics(this);
+
         LoadCurrentStage();
     }
 
-    void AddPlayDuration(DateTime start, DateTime end)
+    void AddPlayDuration(DateTime end, DateTime start)
     {
         TimeSpan timeSpan = end - start;
         playDuration += timeSpan.TotalSeconds;
+
+        // TODO: remove debugging line
+        Debug.Log("playtime: " + playDuration.ToString());
     }
 
     public void AdvanceToNextStage()
