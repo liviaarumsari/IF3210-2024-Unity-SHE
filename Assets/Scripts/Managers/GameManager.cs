@@ -76,11 +76,14 @@ public class GameManager : MonoBehaviour
     {
         string filename = string.Format(GAME_STATES_FILENAME, slot);
         string path = Path.Combine(Application.persistentDataPath, filename);
-        if (File.Exists(path))
+
+        if (!File.Exists(path))
         {
-            string json = File.ReadAllText(path);
-            savedGameStates[slot] = JsonUtility.FromJson<GameState>(json);
+            return;
         }
+
+        string json = File.ReadAllText(path);
+        savedGameStates[slot] = JsonUtility.FromJson<GameState>(json);
     }
 
     public GameState[] GetAllSavedStates()

@@ -64,6 +64,12 @@ public class GameState
         AddPlayDuration(lastSavedTime, lastStartTime);
     }
 
+    public void LoadGame()
+    {
+        ResumeGame();
+        LoadCurrentStage();
+    }
+
     public void PauseGame()
     {
         lastSavedTime = DateTime.Now;
