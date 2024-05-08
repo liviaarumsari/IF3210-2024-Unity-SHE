@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -43,11 +44,12 @@ public class GameManager : MonoBehaviour
 
     public void SaveCurrentGame(int slot)
     {
-        if (slot >= 0 && slot < savedGameStates.Length)
+        if (slot >= 0 && slot < savedGameStates.Length && GameConfig.StageToSceneName[currentGameState.currentStage] == Scene.SceneName.IdleScene)
         {
             currentGameState.SaveGame();
             savedGameStates[slot] = currentGameState;
             SaveGameState(slot);
+            SceneManager.LoadScene(Scene.GetSceneName(Scene.SceneName.MainMenu));
         }
     }
 
@@ -55,11 +57,10 @@ public class GameManager : MonoBehaviour
     {
         if (slot >= 0 && slot < savedGameStates.Length)
         {
-            LoadGameState(slot);
             if (savedGameStates[slot] != null)
             {
                 currentGameState = savedGameStates[slot];
-                currentGameState.ResumeGame();
+                currentGameState.LoadGame();
             }
         }
     }
@@ -70,6 +71,11 @@ public class GameManager : MonoBehaviour
         string path = Path.Combine(Application.persistentDataPath, filename);
         string json = JsonUtility.ToJson(savedGameStates[slot]);
         File.WriteAllText(path, json);
+
+        // TODO: remove debugging line
+        Debug.Log("Saving to : " + filename);
+        Debug.Log("Saving to path : " + path);
+        Debug.Log("json : " + json);
     }
 
     void LoadGameState(int slot)
@@ -84,6 +90,11 @@ public class GameManager : MonoBehaviour
 
         string json = File.ReadAllText(path);
         savedGameStates[slot] = JsonUtility.FromJson<GameState>(json);
+        
+        // TODO: remove debugging line
+        Debug.Log("Read from : " + path);
+        Debug.Log("Read json : " + json);
+        Debug.Log("Read slot : " + savedGameStates[slot].ToString());
     }
 
     public GameState[] GetAllSavedStates()
