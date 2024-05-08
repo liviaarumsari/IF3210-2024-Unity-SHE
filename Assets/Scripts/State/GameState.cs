@@ -60,23 +60,22 @@ public class GameState
 
     public void SaveGame()
     {
-        lastSavedTime.DateTime = DateTime.Now;
-        AddPlayDuration(lastSavedTime.DateTime, lastStartTime.DateTime);
+        PauseGameTime();
     }
 
     public void LoadGame()
     {
-        ResumeGame();
+        ResumeGameTime();
         LoadCurrentStage();
     }
 
-    public void PauseGame()
+    void PauseGameTime()
     {
         lastSavedTime.DateTime = DateTime.Now;
         AddPlayDuration(lastSavedTime.DateTime, lastStartTime.DateTime);
     }
 
-    public void ResumeGame()
+    void ResumeGameTime()
     {
         lastStartTime.DateTime = DateTime.Now;
     }
@@ -89,10 +88,13 @@ public class GameState
         LoadCurrentStage();
     }
 
-    void AddPlayDuration(DateTime start, DateTime end)
+    void AddPlayDuration(DateTime end, DateTime start)
     {
         TimeSpan timeSpan = end - start;
         playDuration += timeSpan.TotalSeconds;
+
+        // TODO: remove debugging line
+        Debug.Log("playtime: " + playDuration.ToString());
     }
 
     public void AdvanceToNextStage()
