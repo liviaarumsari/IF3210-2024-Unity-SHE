@@ -203,4 +203,10 @@ public class GameState
     {
         return orbsPickedUp;
     }
+
+    public string GetStageName()
+    {
+        string stageName = currentStage.ToString(); 
+        return stageName.Substring(stageName.Length - 2); 
+    }
 }

@@ -15,12 +15,10 @@ public class ShopUI : MonoBehaviour
     private void Awake()
     {
         petsContainer = transform.Find("PetsContainer");
-        closeBtn = transform.Find("CloseButton").GetComponent<Button>();
     }
 
     private void Start()
     {
-        closeBtn.onClick.AddListener(Hide);
         Hide();
     }
 
