@@ -25,6 +25,7 @@ public class GameState
 
     public GameSettingsManager gameSettingsManager;
     public DifficultyLevel difficultyLevel;
+    public string playerName;
 
     public int currentStageIndex = 0;
     public Stage currentStage;
@@ -52,6 +53,7 @@ public class GameState
     {
         gameSettingsManager = currentGameSettingsManager;
         difficultyLevel = gameSettingsManager.GetDifficultyLevel();
+        playerName = gameSettingsManager.GetPlayerName();
         currentStage = Stage.Cutscene01;
         startTime.DateTime = DateTime.Now;
         lastStartTime = startTime;
