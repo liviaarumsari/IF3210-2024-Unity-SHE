@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using UnityEditor.ShortcutManagement;
 
 [System.Serializable]
 public class GameStatisticsManager : MonoBehaviour
@@ -75,6 +76,7 @@ public class GameStatisticsManager : MonoBehaviour
 
     public float GetShotAccuracy()
     {
+        if (shots == 0) return 0;
         return shotsOnTarget / shots;
     }
 
@@ -83,19 +85,9 @@ public class GameStatisticsManager : MonoBehaviour
         return totalDistanceTravelled;
     }
 
-    public float GetAverageDistanceTravelled()
-    {
-        return GetDistanceTravelled() / count;
-    }
-
     public double GetPlayDuration()
     {
         return playDuration;
-    }
-
-    public double GetAveragePlayDuration()
-    {
-        return GetPlayDuration() / count;
     }
 
     public int GetEnemiesKilled()
@@ -103,19 +95,9 @@ public class GameStatisticsManager : MonoBehaviour
         return enemiesKilled;
     }
 
-    public int GetAverageEnemiesKilled()
-    {
-        return GetEnemiesKilled() / count;
-    }
-
     public float GetDamageReceived()
     {
         return totalDamageReceived;
-    }
-
-    public float GetAverageDamageReceived()
-    {
-        return GetDamageReceived() / count;
     }
 
     public int GetOrbsPickedUp()
