@@ -43,25 +43,25 @@ public class GameState
 
     public Pet[] pets;
 
-    public DateTime startTime;
-    public DateTime endTime;
-    public DateTime lastSavedTime;
-    public DateTime lastStartTime;
+    public SerializableDateTime startTime = new SerializableDateTime();
+    public SerializableDateTime endTime = new SerializableDateTime();
+    public SerializableDateTime lastSavedTime = new SerializableDateTime();
+    public SerializableDateTime lastStartTime = new SerializableDateTime();
 
     public GameState(GameSettingsManager currentGameSettingsManager)
     {
         gameSettingsManager = currentGameSettingsManager;
         difficultyLevel = gameSettingsManager.GetDifficultyLevel();
         currentStage = Stage.Cutscene01;
-        startTime = DateTime.Now;
+        startTime.DateTime = DateTime.Now;
         lastStartTime = startTime;
         LoadCurrentStage();
     }
 
     public void SaveGame()
     {
-        lastSavedTime = DateTime.Now;
-        AddPlayDuration(lastSavedTime, lastStartTime);
+        lastSavedTime.DateTime = DateTime.Now;
+        AddPlayDuration(lastSavedTime.DateTime, lastStartTime.DateTime);
     }
 
     public void LoadGame()
@@ -72,20 +72,20 @@ public class GameState
 
     public void PauseGame()
     {
-        lastSavedTime = DateTime.Now;
-        AddPlayDuration(lastSavedTime, lastStartTime);
+        lastSavedTime.DateTime = DateTime.Now;
+        AddPlayDuration(lastSavedTime.DateTime, lastStartTime.DateTime);
     }
 
     public void ResumeGame()
     {
-        lastStartTime = DateTime.Now;
+        lastStartTime.DateTime = DateTime.Now;
     }
 
     public void EndGame(Stage endStage)
     {
-        endTime = DateTime.Now;
+        endTime.DateTime = DateTime.Now;
         currentStage = endStage;
-        AddPlayDuration(endTime, lastStartTime);
+        AddPlayDuration(endTime.DateTime, lastStartTime.DateTime);
         LoadCurrentStage();
     }
 

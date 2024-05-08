@@ -23,7 +23,7 @@ public class LoadGame : MonoBehaviour
                 Debug.Log("Loading slot: " + i.ToString());
                 Debug.Log(gameStates[i].ToString());
                 Debug.Log(gameStates[i].currentStageIndex);
-                Debug.Log(gameStates[i].lastSavedTime);
+                Debug.Log(gameStates[i].lastSavedTime.DateTime.ToString());
             }
         }
     }
