@@ -24,6 +24,7 @@ public class GameState
     }
 
     public GameSettingsManager gameSettingsManager;
+    public GameStatisticsManager gameStatisticsManager;
     public DifficultyLevel difficultyLevel;
     public string playerName;
 
@@ -84,9 +85,16 @@ public class GameState
 
     public void EndGame(Stage endStage)
     {
+        if (gameStatisticsManager == null) {
+            gameStatisticsManager = GameStatisticsManager.Instance;
+        }
+
         endTime.DateTime = DateTime.Now;
         currentStage = endStage;
         AddPlayDuration(endTime.DateTime, lastStartTime.DateTime);
+
+        gameStatisticsManager.AddStatistics(this);
+
         LoadCurrentStage();
     }
 
