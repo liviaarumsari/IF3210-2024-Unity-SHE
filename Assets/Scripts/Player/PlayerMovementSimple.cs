@@ -21,7 +21,7 @@ public class PlayerMovementSimple : MonoBehaviour
     [SerializeField] private ShopUI shopUi;
 
     Vector3 lastPosition;
-    GameState gameState;
+    GameManager gameManager;
 
     void Awake()
     {
@@ -35,14 +35,14 @@ public class PlayerMovementSimple : MonoBehaviour
 
     void Start()
     {
-        gameState = GameManager.Instance.currentGameState;
+        gameManager = GameManager.Instance;
         lastPosition = transform.position;
     }
 
     void Update()
     {
         float distanceTravelled = Vector3.Distance(transform.position, lastPosition);
-        gameState.AddDistanceTravelled(distanceTravelled);
+        gameManager.currentGameState.AddDistanceTravelled(distanceTravelled);
         lastPosition = transform.position;
     }
 
@@ -71,22 +71,28 @@ public class PlayerMovementSimple : MonoBehaviour
             HandleQuestStart();
         }
 
+        // TODO: Remove if real save game implemented
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            gameManager.SaveCurrentGame(1);
+        }
+
         // Cheat: Auto advance to next stage
         if (Input.GetKeyDown(KeyCode.N))
         {
-            gameState.AdvanceToNextStage();
+            gameManager.currentGameState.AdvanceToNextStage();
         }
 
         // Cheat: Auto victory
         if (Input.GetKeyDown(KeyCode.V))
         {
-            gameState.EndGame(GameState.Stage.Victory);
+            gameManager.currentGameState.EndGame(GameState.Stage.Victory);
         }
 
         // Cheat: Auto game over
         if (Input.GetKeyDown(KeyCode.G))
         {
-            gameState.EndGame(GameState.Stage.GameOver);
+            gameManager.currentGameState.EndGame(GameState.Stage.GameOver);
         }
     }
 
@@ -161,6 +167,6 @@ public class PlayerMovementSimple : MonoBehaviour
 
     private void HandleQuestStart()
     {
-        gameState.AdvanceToNextStage();
+        gameManager.currentGameState.AdvanceToNextStage();
     }
 }
