@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -23,11 +24,17 @@ using UnityEngine;
         }
 
         matchesPlayed.text = gameStatisticsManager.count.ToString();
-        shotsAccuracy.text = gameStatisticsManager.GetShotAccuracy().ToString() + "%";
-        distanceTravelled.text = gameStatisticsManager.GetDistanceTravelled().ToString();
-        playDuration.text = gameStatisticsManager.GetPlayDuration().ToString();
+        shotsAccuracy.text = gameStatisticsManager.GetShotAccuracy().ToString("F2") + "%";
+        distanceTravelled.text = gameStatisticsManager.GetDistanceTravelled().ToString("F2");
+        
+        TimeSpan timeSpan = TimeSpan.FromSeconds(gameStatisticsManager.GetPlayDuration());
+        playDuration.text = string.Format("{0:D2}:{1:D2}:{2:D2}", 
+            timeSpan.Hours, 
+            timeSpan.Minutes, 
+            timeSpan.Seconds);
+            
         enemiesKilled.text = gameStatisticsManager.GetEnemiesKilled().ToString();
-        damageReceived.text = gameStatisticsManager.GetDamageReceived().ToString();
+        damageReceived.text = gameStatisticsManager.GetDamageReceived().ToString("F2");
         orbsPickedUp.text = gameStatisticsManager.GetOrbsPickedUp().ToString();
     }
 }
