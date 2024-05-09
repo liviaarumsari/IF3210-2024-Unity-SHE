@@ -55,7 +55,7 @@ namespace Nightmare
             {
                 // ... attack.
                 Attack ();
-                anim.SetTrigger("Attack");
+                // anim.SetTrigger("Attack");
             }
         }
 

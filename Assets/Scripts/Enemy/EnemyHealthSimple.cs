@@ -71,6 +71,8 @@ namespace Nightmare
                 enemyAudio.Play();
                 currentHealth -= amount;
 
+                gameManager.currentGameState.OnShotOnTarget();
+
                 if (IsDead())
                 {
                     Death();
@@ -92,6 +94,8 @@ namespace Nightmare
 
             enemyAudio.clip = deathClip;
             enemyAudio.Play ();
+
+            gameManager.currentGameState.OnEnemyKilled();
         }
 
         void Sink()

@@ -96,6 +96,11 @@ public class GameState
         // TODO: remove debugging line
         Debug.Log("HEALTH: " + health);
         Debug.Log("SCORE: " + score);
+        Debug.Log("ShotOnTarget: " + shotsOnTarget);
+        Debug.Log("totalDistanceTravelled: " + totalDistanceTravelled);
+        Debug.Log("playDuration: " + playDuration);
+        Debug.Log("enemiesKilled: " + enemiesKilled);
+        Debug.Log("totalDamageReceived: " + totalDamageReceived);
 
         gameStatisticsManager.AddStatistics(this);
 
