@@ -48,6 +48,7 @@ public class SlotBtn : MonoBehaviour
 
     public void OnClick()
     {
-        saveUI.SetSelectedSlot(slot);   
+        Debug.Log("SELECTED SLOT = " + slot);
+        saveUI.SetSelectedSlot(slot);
     }
 }

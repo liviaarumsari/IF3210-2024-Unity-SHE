@@ -47,6 +47,7 @@ public class SavePanel : MonoBehaviour
 
     public void OnSaveBtnClick()
     {
+        Debug.Log("SELECTED SLOT = " + selectedSlot);
         GameManager.Instance.SaveCurrentGame(selectedSlot);
     }
 }
