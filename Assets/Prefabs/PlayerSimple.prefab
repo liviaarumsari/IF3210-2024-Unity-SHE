@@ -4977,6 +4977,8 @@ MonoBehaviour:
   timeBetweenBullets: 0.15
   range: 10
   inaccuracyDistance: 5
+  damageRegenStep: 1
+  timeBetweenWeaken: 0.5
   shotgun: 1
   bulletsPerShot: 6
   laser: {fileID: 3620894703410637037, guid: 6e1d574318dcc2f42825e05a21e9a26d, type: 3}
@@ -10057,6 +10059,8 @@ MonoBehaviour:
   timeBetweenBullets: 0.15
   range: 100
   inaccuracyDistance: 5
+  damageRegenStep: 1
+  timeBetweenWeaken: 0.5
   shotgun: 0
   bulletsPerShot: 6
   laser: {fileID: 3620894703410637037, guid: 6e1d574318dcc2f42825e05a21e9a26d, type: 3}
@@ -15136,6 +15140,8 @@ MonoBehaviour:
   timeBetweenBullets: 0.15
   range: 100
   inaccuracyDistance: 5
+  damageRegenStep: 1
+  timeBetweenWeaken: 0.5
   shotgun: 0
   bulletsPerShot: 6
   laser: {fileID: 0}
@@ -15472,8 +15478,12 @@ MonoBehaviour:
   speed: 6
   inShopArea: 0
   inQuestArea: 0
+  inSaveArea: 0
   shopMsg: {fileID: 0}
   shopUi: {fileID: 0}
+  saveUI: {fileID: 0}
+  timeBetweenWeaken: 0.5
+  speedRegenStep: 0.5
 --- !u!114 &8837602571499588349
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15494,6 +15504,9 @@ MonoBehaviour:
   flashSpeed: 5
   flashColour: {r: 1, g: 0, b: 0, a: 0.1}
   godMode: 0
+  hitParticles: {fileID: 0}
+  timeBetweenWeaken: 0.5
+  healthRegenStep: 2
 --- !u!4 &6622397034693380883 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400080, guid: f1d84cc28597f5641a3d9cbc4df7e306, type: 3}

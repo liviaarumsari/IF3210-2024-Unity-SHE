@@ -24,6 +24,7 @@ namespace Nightmare
         public Color flashColour = new Color(1f, 0f, 0f, 0.1f);
         public Color healColour = new Color(0f, 1f, 0f, 0.1f);
         public bool godMode = false;
+        public ParticleSystem hitParticles;
 
         Animator anim;
         AudioSource playerAudio;
@@ -188,6 +189,18 @@ namespace Nightmare
             unweakenedHealth -= amount;
         }
 
+        public void TakeDamageShot(int amount, Vector3 hitPoint)
+        {
+            if (godMode)
+                return;
+
+            ReduceHealth(amount);
+            unweakenedHealth -= amount;
+
+            hitParticles.transform.position = hitPoint;
+            hitParticles.Play();
+        }
+        
         public void TakeHeal(int amount)
         {   
             // if player's not dead yet

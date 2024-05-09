@@ -18,6 +18,7 @@ namespace Nightmare
         AudioSource enemyAudio;
         ParticleSystem hitParticles;
         CapsuleCollider capsuleCollider;
+        Rigidbody rigidBody;
         SphereCollider sphereCollider;
         //EnemyMovementSimple enemyMovement;
 
@@ -28,6 +29,7 @@ namespace Nightmare
             hitParticles = GetComponentInChildren <ParticleSystem> ();
             capsuleCollider = GetComponent <CapsuleCollider> ();
             sphereCollider = GetComponent<SphereCollider>();
+            rigidBody = GetComponent<Rigidbody>();
             //enemyMovement = GetComponent<EnemyMovementSimple>();
 
             currentHealth = startingHealth;
@@ -44,7 +46,8 @@ namespace Nightmare
         private void SetKinematics(bool isKinematic)
         {
             capsuleCollider.isTrigger = isKinematic;
-            capsuleCollider.attachedRigidbody.isKinematic = isKinematic;
+
+            rigidBody.isKinematic = isKinematic;
         }
 
         void Update ()
