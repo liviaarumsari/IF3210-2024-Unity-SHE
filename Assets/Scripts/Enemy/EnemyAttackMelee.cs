@@ -14,7 +14,7 @@ namespace Nightmare
         EnemyHealthSimple enemyHealth;
         bool playerInRange;
         float timer;
-        bool isSpawned = true;
+        bool isSpawned = false;
 
         void Awake ()
         {
@@ -23,6 +23,12 @@ namespace Nightmare
             playerHealth = player.GetComponent <PlayerHealth> ();
             enemyHealth = GetComponent<EnemyHealthSimple>();
             anim = GetComponent <Animator> ();
+
+            if (enemyHealth == null)
+                enemyHealth = GetComponent<Transform>().parent.GetComponent<EnemyHealthSimple>();
+
+            if (anim == null)
+                anim = GetComponent<Transform>().parent.GetComponent<Animator>();
         }
 
         void OnTriggerEnter (Collider other)
@@ -53,11 +59,16 @@ namespace Nightmare
             timer += Time.deltaTime;
 
             // If the timer exceeds the time between attacks, the player is in range and this enemy is alive...
-            if(timer >= timeBetweenAttacks && playerInRange && enemyHealth.CurrentHealth() > 0)
+            if(timer >= timeBetweenAttacks && playerInRange && enemyHealth.CurrentHealth() > 0 && playerHealth.currentHealth > 0)
             {
                 // ... attack.
                 Attack ();
                 anim.SetTrigger("Attack");
+            }
+
+            if (playerHealth.currentHealth <= 0)
+            {
+                anim.SetTrigger("Cheer");
             }
         }
 
@@ -76,7 +87,6 @@ namespace Nightmare
 
         public void FinishSpawnAnimAttack()
         {
-            Debug.Log("Finish Anim Attack");
             isSpawned = true;
         }
     }

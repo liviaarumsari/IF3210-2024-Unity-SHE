@@ -22,71 +22,89 @@ public class GameState
         Victory,
         GameOver
     }
-    
-    GameSettingsManager gameSettingsManager;
-    public DifficultyLevel difficultyLevel { get; private set; }
 
-    int currentStageIndex = 0;
-    Stage currentStage;
-    Stage[] stages = (Stage[])System.Enum.GetValues(typeof(Stage));
+    public GameSettingsManager gameSettingsManager;
+    public GameStatisticsManager gameStatisticsManager;
+    public DifficultyLevel difficultyLevel;
+    public string playerName;
 
-    public int score { get; private set; }
-    public float health { get; private set; }
+    public int currentStageIndex = 0;
+    public Stage currentStage;
+    public Stage[] stages = (Stage[])System.Enum.GetValues(typeof(Stage));
 
-    int shots = 0;
-    int shotsOnTarget = 0;
-    float totalDistanceTravelled = 0f;
-    double playDuration = 0;
-    int enemiesKilled = 0;
-    float totalDamageReceived = 0f;
-    int orbsPickedUp = 0;
+    public int score;
+    public float health;
 
-    Pet[] pets;
+    public int shots = 0;
+    public int shotsOnTarget = 0;
+    public float totalDistanceTravelled = 0f;
+    public double playDuration = 0;
+    public int enemiesKilled = 0;
+    public float totalDamageReceived = 0f;
+    public int orbsPickedUp = 0;
 
-    DateTime startTime;
-    DateTime endTime;
-    DateTime lastSavedTime;
-    DateTime lastStartTime;
+    public Pet[] pets;
+
+    public SerializableDateTime startTime = new SerializableDateTime();
+    public SerializableDateTime endTime = new SerializableDateTime();
+    public SerializableDateTime lastSavedTime = new SerializableDateTime();
+    public SerializableDateTime lastStartTime = new SerializableDateTime();
 
     public GameState(GameSettingsManager currentGameSettingsManager)
     {
         gameSettingsManager = currentGameSettingsManager;
         difficultyLevel = gameSettingsManager.GetDifficultyLevel();
+        playerName = gameSettingsManager.GetPlayerName();
         currentStage = Stage.Cutscene01;
-        startTime = DateTime.Now;
+        startTime.DateTime = DateTime.Now;
         lastStartTime = startTime;
         LoadCurrentStage();
     }
 
     public void SaveGame()
     {
-        lastSavedTime = DateTime.Now;
-        AddPlayDuration(lastSavedTime, lastStartTime);
+        PauseGameTime();
     }
 
-    public void PauseGame()
+    public void LoadGame()
     {
-        lastSavedTime = DateTime.Now;
-        AddPlayDuration(lastSavedTime, lastStartTime);
+        ResumeGameTime();
+        LoadCurrentStage();
     }
 
-    public void ResumeGame()
+    void PauseGameTime()
     {
-        lastStartTime = DateTime.Now;
+        lastSavedTime.DateTime = DateTime.Now;
+        AddPlayDuration(lastSavedTime.DateTime, lastStartTime.DateTime);
+    }
+
+    void ResumeGameTime()
+    {
+        lastStartTime.DateTime = DateTime.Now;
     }
 
     public void EndGame(Stage endStage)
     {
-        endTime = DateTime.Now;
+        if (gameStatisticsManager == null) {
+            gameStatisticsManager = GameStatisticsManager.Instance;
+        }
+
+        endTime.DateTime = DateTime.Now;
         currentStage = endStage;
-        AddPlayDuration(endTime, lastStartTime);
+        AddPlayDuration(endTime.DateTime, lastStartTime.DateTime);
+
+        gameStatisticsManager.AddStatistics(this);
+
         LoadCurrentStage();
     }
 
-    void AddPlayDuration(DateTime start, DateTime end)
+    void AddPlayDuration(DateTime end, DateTime start)
     {
         TimeSpan timeSpan = end - start;
         playDuration += timeSpan.TotalSeconds;
+
+        // TODO: remove debugging line
+        Debug.Log("playtime: " + playDuration.ToString());
     }
 
     public void AdvanceToNextStage()
@@ -184,5 +202,11 @@ public class GameState
     public int GetOrbsPickedUp()
     {
         return orbsPickedUp;
+    }
+
+    public string GetStageName()
+    {
+        string stageName = currentStage.ToString(); 
+        return stageName.Substring(stageName.Length - 2); 
     }
 }

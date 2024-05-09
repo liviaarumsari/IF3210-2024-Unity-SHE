@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,11 +14,10 @@ public class GameManager : MonoBehaviour
     public GameState currentGameState { get; private set; }
 
     // Saved game states
-    List<GameState> savedGameStates = new List<GameState>();
+    GameState[] savedGameStates = new GameState[3];
 
     // Constants
-    const int MAX_GAME_STATES = 3;
-    const string GAME_STATES_FILENAME = "gameStates.json";
+    const string GAME_STATES_FILENAME = "gameState_{0}.json";
 
     void Awake()
     {
@@ -42,49 +42,68 @@ public class GameManager : MonoBehaviour
         currentGameState = new GameState(gameSettingsManager);
     }
 
-    public void SaveCurrentGame()
+    public void SaveCurrentGame(int slot)
     {
-        currentGameState.SaveGame();
-
-        savedGameStates.Add(currentGameState);
-
-        if (savedGameStates.Count > MAX_GAME_STATES)
+        if (slot >= 0 && slot < savedGameStates.Length && GameConfig.StageToSceneName[currentGameState.currentStage] == Scene.SceneName.IdleScene)
         {
-            savedGameStates.RemoveAt(0);
-        }
-
-        SaveAllGameStates();
-    }
-
-    public void LoadSavedGame(int index)
-    {
-        if (index >= 0 && index < savedGameStates.Count)
-        {
-            currentGameState = savedGameStates[index];
-            currentGameState.ResumeGame();
+            currentGameState.SaveGame();
+            savedGameStates[slot] = currentGameState;
+            SaveGameState(slot);
+            SceneManager.LoadScene(Scene.GetSceneName(Scene.SceneName.MainMenu));
         }
     }
 
-    void SaveAllGameStates()
+    public void LoadSavedGame(int slot)
     {
-        string path = Path.Combine(Application.persistentDataPath, GAME_STATES_FILENAME);
-        string json = JsonUtility.ToJson(new { gameStates = savedGameStates });
+        if (slot >= 0 && slot < savedGameStates.Length)
+        {
+            if (savedGameStates[slot] != null)
+            {
+                currentGameState = savedGameStates[slot];
+                currentGameState.LoadGame();
+            }
+        }
+    }
+
+    void SaveGameState(int slot)
+    {
+        string filename = string.Format(GAME_STATES_FILENAME, slot);
+        string path = Path.Combine(Application.persistentDataPath, filename);
+        string json = JsonUtility.ToJson(savedGameStates[slot]);
         File.WriteAllText(path, json);
+
+        // TODO: remove debugging line
+        Debug.Log("Saving to : " + filename);
+        Debug.Log("Saving to path : " + path);
+        Debug.Log("json : " + json);
     }
 
-    void LoadAllGameStates()
+    void LoadGameState(int slot)
     {
-        string path = Path.Combine(Application.persistentDataPath, GAME_STATES_FILENAME);
-        if (File.Exists(path))
+        string filename = string.Format(GAME_STATES_FILENAME, slot);
+        string path = Path.Combine(Application.persistentDataPath, filename);
+
+        if (!File.Exists(path))
         {
-            string json = File.ReadAllText(path);
-            savedGameStates = JsonUtility.FromJson<List<GameState>>(json);
+            savedGameStates[slot] = null;
+            return;
         }
+
+        string json = File.ReadAllText(path);
+        savedGameStates[slot] = JsonUtility.FromJson<GameState>(json);
+        
+        // TODO: remove debugging line
+        Debug.Log("Read from : " + path);
+        Debug.Log("Read json : " + json);
+        Debug.Log("Read slot : " + savedGameStates[slot].ToString());
     }
 
-    public List<GameState> GetSavedGameStates()
+    public GameState[] GetAllSavedStates()
     {
-        LoadAllGameStates();
+        for (int i = 0; i < savedGameStates.Length; i++)
+        {
+            LoadGameState(i);
+        }
         return savedGameStates;
     }
 }
