@@ -10,6 +10,8 @@ namespace Nightmare
 {
     public class PlayerHealth : MonoBehaviour
     {
+        GameManager gameManager;
+
         public int startingHealth = 100;
         public int currentHealth;
         int unweakenedHealth;
@@ -45,6 +47,8 @@ namespace Nightmare
             playerMovement = GetComponent<PlayerMovementSimple>();
             playerShooting = GetComponentInChildren<PlayerShooting>();
             weakenTimer = timeBetweenWeaken;
+
+            gameManager = GameManager.Instance;
 
             ResetPlayer();
         }
@@ -143,6 +147,8 @@ namespace Nightmare
 
             playerAudio.Play();
 
+            gameManager.currentGameState.health = currentHealth;
+
             if (currentHealth <= 0 && !isDead)
             {
                 Death();
@@ -155,6 +161,8 @@ namespace Nightmare
 
             currentHealth += amount;
             healthSlider.value = currentHealth;
+
+            gameManager.currentGameState.health = currentHealth;
         }
 
         public void TakeDamage(int amount)
@@ -184,6 +192,8 @@ namespace Nightmare
             // Turn off the movement and shooting scripts.
             playerMovement.enabled = false;
             playerShooting.enabled = false;
+
+            gameManager.currentGameState.EndGame(GameState.Stage.GameOver);
         }
 
         public void RestartLevel()

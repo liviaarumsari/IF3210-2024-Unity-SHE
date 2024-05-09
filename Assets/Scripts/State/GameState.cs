@@ -93,6 +93,10 @@ public class GameState
         currentStage = endStage;
         AddPlayDuration(endTime.DateTime, lastStartTime.DateTime);
 
+        // TODO: remove debugging line
+        Debug.Log("HEALTH: " + health);
+        Debug.Log("SCORE: " + score);
+
         gameStatisticsManager.AddStatistics(this);
 
         LoadCurrentStage();
