@@ -21,7 +21,7 @@ public class PlayerMovementSimple : MonoBehaviour
 
     [SerializeField] private BannerMsg shopMsg;
     [SerializeField] private ShopUI shopUi;
-    [SerializeField] private SaveUI saveUI;
+    [SerializeField] private SavePanel saveUI;
 
     Vector3 lastPosition;
     GameManager gameManager;

@@ -4,6 +4,8 @@ namespace Nightmare
 {
     public class EnemyHealthSimple : MonoBehaviour
     {
+        GameManager gameManager;
+
         public int startingHealth = 100;
         public int currentHealth;
         public float sinkSpeed = 2.5f;
@@ -31,6 +33,8 @@ namespace Nightmare
             //enemyMovement = GetComponent<EnemyMovementSimple>();
 
             currentHealth = startingHealth;
+
+            gameManager = GameManager.Instance;
         }
 
         void OnEnable()
@@ -70,6 +74,8 @@ namespace Nightmare
                 enemyAudio.Play();
                 currentHealth -= amount;
 
+                gameManager.currentGameState.OnShotOnTarget();
+
                 if (IsDead())
                 {
                     Death();
@@ -91,6 +97,8 @@ namespace Nightmare
 
             enemyAudio.clip = deathClip;
             enemyAudio.Play ();
+
+            gameManager.currentGameState.OnEnemyKilled();
         }
 
         void Sink()
@@ -107,7 +115,7 @@ namespace Nightmare
             if (sphereCollider != null)
                 sphereCollider.enabled = false;
 
-            ScoreManager.score += scoreValue;
+            gameManager.currentGameState.AddScore(scoreValue);
             Invoke("Sink", 1f);
         }
 

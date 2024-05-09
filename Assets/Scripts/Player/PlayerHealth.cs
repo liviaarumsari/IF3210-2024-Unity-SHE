@@ -10,15 +10,19 @@ namespace Nightmare
 {
     public class PlayerHealth : MonoBehaviour
     {
+        GameManager gameManager;
+
         public int startingHealth = 100;
         public int currentHealth;
         int unweakenedHealth;
 
         public Slider healthSlider;
         public Image damageImage;
+        public Image healImage;
         public AudioClip deathClip;
         public float flashSpeed = 5f;
         public Color flashColour = new Color(1f, 0f, 0f, 0.1f);
+        public Color healColour = new Color(0f, 1f, 0f, 0.1f);
         public bool godMode = false;
         public ParticleSystem hitParticles;
 
@@ -28,6 +32,7 @@ namespace Nightmare
         PlayerShooting playerShooting;
         bool isDead;
         bool damaged;
+        bool healed;
 
         public float timeBetweenWeaken = 0.5f;
         public int healthRegenStep = 2;
@@ -46,6 +51,8 @@ namespace Nightmare
             playerMovement = GetComponent<PlayerMovementSimple>();
             playerShooting = GetComponentInChildren<PlayerShooting>();
             weakenTimer = timeBetweenWeaken;
+
+            gameManager = GameManager.Instance;
 
             ResetPlayer();
         }
@@ -99,6 +106,16 @@ namespace Nightmare
             }
 
             damaged = false;
+
+            if (healed)
+            {
+                damageImage.color = healColour;
+            }
+            else
+            {
+                damageImage.color = Color.Lerp(damageImage.color, Color.clear, flashSpeed * Time.deltaTime);
+            }
+            healed = false;
         }
 
         void Weaken()
@@ -144,6 +161,9 @@ namespace Nightmare
 
             playerAudio.Play();
 
+            gameManager.currentGameState.health = currentHealth;
+            gameManager.currentGameState.AddDamageReceived(amount);
+
             if (currentHealth <= 0 && !isDead)
             {
                 Death();
@@ -156,6 +176,8 @@ namespace Nightmare
 
             currentHealth += amount;
             healthSlider.value = currentHealth;
+
+            gameManager.currentGameState.health = currentHealth;
         }
 
         public void TakeDamage(int amount)
@@ -178,6 +200,20 @@ namespace Nightmare
             hitParticles.transform.position = hitPoint;
             hitParticles.Play();
         }
+        
+        public void TakeHeal(int amount)
+        {   
+            // if player's not dead yet
+            if (currentHealth > 0)
+            {
+                healed = true;
+
+                currentHealth += amount;
+
+                healthSlider.value = currentHealth;
+            }
+           
+        }
 
         void Death()
         {
@@ -197,6 +233,8 @@ namespace Nightmare
             // Turn off the movement and shooting scripts.
             playerMovement.enabled = false;
             playerShooting.enabled = false;
+
+            gameManager.currentGameState.EndGame(GameState.Stage.GameOver);
         }
 
         public void RestartLevel()

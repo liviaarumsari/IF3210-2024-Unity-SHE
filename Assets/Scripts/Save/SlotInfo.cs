@@ -19,10 +19,16 @@ public class SlotInfo : MonoBehaviour
 
     public void SetGameState(GameState gameState)
     {
-        Debug.Log("[DEBUG] masuk SET GAME STATE");
         SetTextField("Quest", "Quest " + gameState.GetStageName());
-        Debug.Log("DEBUG DATA SAVED: " + gameState.lastSavedTime.ToString());
+        SetTextField("PlayerName", gameState.playerName);
         SetTextField("DateSaved", gameState.lastSavedTime.DateTime.ToString("dd/MM/yy"));  
+    }
+
+    public void SetEmpty()
+    {
+        SetTextField("Quest", "");
+        SetTextField("PlayerName", "Empty");
+        SetTextField("DateSaved", "");
     }
 
     void SetTextField(string objectName, string value)
@@ -34,7 +40,6 @@ public class SlotInfo : MonoBehaviour
 
             if (textComponent != null)
             {
-                Debug.Log("[DEBUG] UPDATINGGG");
                 textComponent.text = value;
             }
             else

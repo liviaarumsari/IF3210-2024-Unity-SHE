@@ -5,7 +5,7 @@ using UnityEngine;
 public class SaveTriggerArea : MonoBehaviour
 {
     [SerializeField] private BannerMsg bannerMsg;
-    [SerializeField] private SaveUI saveUi;
+    [SerializeField] private SavePanel saveUi;
     // Start is called before the first frame update
     private void OnTriggerEnter(Collider other)
     {

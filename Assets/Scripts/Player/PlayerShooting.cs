@@ -190,8 +190,10 @@ namespace Nightmare
                         // If the EnemyHealth component exist...
                         if (enemyHealth != null)
                         {
+                            float distance = Vector3.Distance(transform.position, shootHit.point);
+                            int increasedDamage = (int) distance == 0 ? 30 : 30/(int)distance;
                             // ... the enemy should take damage.
-                            enemyHealth.TakeDamage(damagePerShot, shootHit.point);
+                            enemyHealth.TakeDamage(damagePerShot + increasedDamage, shootHit.point);
                         }
 
                         // Set the second position of the line renderer to the point the raycast hit.

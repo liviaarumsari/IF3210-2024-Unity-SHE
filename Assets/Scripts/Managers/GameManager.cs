@@ -35,6 +35,10 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         gameSettingsManager = GameSettingsManager.Instance;
+        for (int i = 0; i < savedGameStates.Length; i++)
+        {
+            LoadGameState(i);
+        }
     }
 
     public void StartNewGame()
@@ -46,6 +50,7 @@ public class GameManager : MonoBehaviour
     {
         if (slot >= 0 && slot < savedGameStates.Length && GameConfig.StageToSceneName[currentGameState.currentStage] == Scene.SceneName.IdleScene)
         {
+            Debug.Log("Saving game state with player name " + currentGameState.playerName);
             currentGameState.SaveGame();
             savedGameStates[slot] = currentGameState;
             SaveGameState(slot);
@@ -100,10 +105,6 @@ public class GameManager : MonoBehaviour
 
     public GameState[] GetAllSavedStates()
     {
-        for (int i = 0; i < savedGameStates.Length; i++)
-        {
-            LoadGameState(i);
-        }
         return savedGameStates;
     }
 }

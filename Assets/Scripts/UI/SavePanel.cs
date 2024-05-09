@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SaveUI : MonoBehaviour
+public class SavePanel : MonoBehaviour
 {
     [SerializeField] private BannerMsg saveMsg;
     private int selectedSlot;
@@ -42,13 +42,12 @@ public class SaveUI : MonoBehaviour
     public void SetSelectedSlot(int slot)
     {
         selectedSlot = slot;
-        Debug.Log("current slot");
     }
 
 
     public void OnSaveBtnClick()
     {
-        Debug.Log("[DEBUG] Saving slot: " +  selectedSlot);
+        Debug.Log("SELECTED SLOT = " + selectedSlot);
         GameManager.Instance.SaveCurrentGame(selectedSlot);
     }
 }
