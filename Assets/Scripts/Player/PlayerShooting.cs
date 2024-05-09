@@ -88,7 +88,6 @@ namespace Nightmare
                 if (isWeakenOrRegen)
                     weakenTimer = 0;
 
-                Debug.Log("Update " + gameObject.name + " : " + weakenStep);
                 if (weakenStep > 0)
                 {
                     Weaken();
@@ -114,7 +113,6 @@ namespace Nightmare
                 if (Input.GetButton("Fire1"))
                 {
                     // ... shoot the gun.
-                    //Debug.Log(damagePerShot);
                     Shoot();
                 }
             }
@@ -141,7 +139,6 @@ namespace Nightmare
                 amount = weakenStep;
             }
 
-            Debug.Log("Weaken");
             isWeakenOrRegen = true;
             damagePerShot -= amount;
         }
@@ -289,13 +286,13 @@ namespace Nightmare
 
         public void RegisterWeakenDamage(int maxDamageWeakened, int damageWeakenStepFunc)
         {
-            if (playerHealth.godMode)
+            // TODO check why playerHealth not found
+            if (playerHealth != null && playerHealth.godMode)
                 return;
 
             this.maxDamageWeakened = maxDamageWeakened > this.maxDamageWeakened ? maxDamageWeakened : this.maxDamageWeakened;
             weakenStep += damageWeakenStepFunc;
             maxDamageWeakenedList.Add(maxDamageWeakened);
-            Debug.Log("Register " + gameObject.name + " : " + weakenStep);
         }
 
         public void UnregisterWeakenDamage(int maxDamageWeakened, int damageWeakenStep)
@@ -304,7 +301,6 @@ namespace Nightmare
             maxDamageWeakenedList.Remove(maxDamageWeakened);
 
             this.maxDamageWeakened = maxDamageWeakenedList.Count > 0 ? maxDamageWeakenedList.Max() : 0;
-            Debug.Log("Register " + gameObject.name + " : " + this.weakenStep);
         }
     }
 }

@@ -84,7 +84,8 @@ public class PlayerMovementSimple : MonoBehaviour
         }
 
         float distanceTravelled = Vector3.Distance(transform.position, lastPosition);
-        gameManager.currentGameState.AddDistanceTravelled(distanceTravelled);
+        if (gameManager != null)
+            gameManager.currentGameState.AddDistanceTravelled(distanceTravelled);
         lastPosition = transform.position;
     }
 
@@ -176,88 +177,82 @@ public class PlayerMovementSimple : MonoBehaviour
         {
             gameManager.currentGameState.EndGame(GameState.Stage.GameOver);
         }
-        }
+    }
+
+    void Move(float h, float v)
+    {
+        // Set the movement vector based on the axis input.
+        movement.Set(h, 0f, v);
+
+        // Normalise the movement vector and make it proportional to the speed per second.
+        movement = movement.normalized * speed * Time.deltaTime;
+
+        // Move the player to it's current position plus the movement.
+        playerRigidbody.MovePosition(transform.position + movement);
+    }
 
 
-        void Move(float h, float v)
+    void Turning()
+    {
+        // Create a ray from the mouse cursor on screen in the direction of the camera.
+        Ray camRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        // Create a RaycastHit variable to store information about what was hit by the ray.
+        RaycastHit floorHit;
+
+        // Perform the raycast and if it hits something on the floor layer...
+        if (Physics.Raycast(camRay, out floorHit, camRayLength, floorMask))
         {
-            // Set the movement vector based on the axis input.
-            movement.Set(h, 0f, v);
+            // Create a vector from the player to the point on the floor the raycast from the mouse hit.
+            Vector3 playerToMouse = floorHit.point - transform.position;
 
-            // Normalise the movement vector and make it proportional to the speed per second.
-            movement = movement.normalized * speed * Time.deltaTime;
+            // Ensure the vector is entirely along the floor plane.
+            playerToMouse.y = 0f;
 
-            // Move the player to it's current position plus the movement.
-            playerRigidbody.MovePosition(transform.position + movement);
+            // Create a quaternion (rotation) based on looking down the vector from the player to the mouse.
+            Quaternion newRotatation = Quaternion.LookRotation(playerToMouse);
+
+            // Set the player's rotation to this new rotation.
+            playerRigidbody.MoveRotation(newRotatation);
         }
+    }
 
 
-        void Turning()
+    void Animating(float h, float v)
+    {
+        // Create a boolean that is true if either of the input axes is non-zero.
+        bool walking = h != 0f || v != 0f;
+
+        // Tell the animator whether or not the player is walking.
+        anim.SetBool("IsWalking", walking);
+    }
+
+    private IEnumerator ShowShopNotInRange(float duration)
+    {
+        shopMsg.Show();
+        yield return new WaitForSeconds(duration);
+        shopMsg.Hide();
+    }
+
+    private void HandleShopEvent()
+    {
+        IShopCustomer customer = this.gameObject.GetComponent<IShopCustomer>();
+        if (inShopArea && customer != null)
         {
-            // Create a ray from the mouse cursor on screen in the direction of the camera.
-            Ray camRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-            // Create a RaycastHit variable to store information about what was hit by the ray.
-            RaycastHit floorHit;
-
-            // Perform the raycast and if it hits something on the floor layer...
-            if (Physics.Raycast(camRay, out floorHit, camRayLength, floorMask))
-            {
-                // Create a vector from the player to the point on the floor the raycast from the mouse hit.
-                Vector3 playerToMouse = floorHit.point - transform.position;
-
-                // Ensure the vector is entirely along the floor plane.
-                playerToMouse.y = 0f;
-
-                // Create a quaternion (rotation) based on looking down the vector from the player to the mouse.
-                Quaternion newRotatation = Quaternion.LookRotation(playerToMouse);
-
-                // Set the player's rotation to this new rotation.
-                playerRigidbody.MoveRotation(newRotatation);
-            }
+            shopUi.Show(customer);
         }
-
-
-        void Animating(float h, float v)
+        else if (customer != null)
         {
-            // Create a boolean that is true if either of the input axes is non-zero.
-            bool walking = h != 0f || v != 0f;
-
-            // Tell the animator whether or not the player is walking.
-            anim.SetBool("IsWalking", walking);
+            StartCoroutine(ShowShopNotInRange(1.5f));
         }
-
-        private IEnumerator ShowShopNotInRange(float duration)
-        {
-            shopMsg.Show();
-            yield return new WaitForSeconds(duration);
-            shopMsg.Hide();
-        }
-
-        private void HandleShopEvent()
-        {
-            IShopCustomer customer = this.gameObject.GetComponent<IShopCustomer>();
-            if (inShopArea && customer != null)
-            {
-                shopUi.Show(customer);
-            }
-            else if (customer != null)
-            {
-                StartCoroutine(ShowShopNotInRange(1.5f));
-            }
-        }
-
-        private void HandleQuestStart()
-        {
-            if (inQuestArea)
-            {
-                gameManager.currentGameState.AdvanceToNextStage();
-            }
-        }
+    }
 
     private void HandleQuestStart()
     {
-        //gameState.AdvanceToNextStage();
+        if (inQuestArea)
+        {
+            gameManager.currentGameState.AdvanceToNextStage();
+        }
     }
 
     public void RegisterWeakenSpeed(float maxSpeedWeakened, float speedWeakenStep)
