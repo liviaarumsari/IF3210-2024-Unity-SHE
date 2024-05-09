@@ -31,7 +31,7 @@ namespace Nightmare
 
         void Update()
         {
-            if (playerHealth.currentHealth <= 0)
+            if (playerHealth && playerHealth.currentHealth <= 0)
             {
                 anim.SetTrigger("GameOver");
 
