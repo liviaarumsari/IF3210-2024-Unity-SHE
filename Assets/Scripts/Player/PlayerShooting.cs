@@ -38,24 +38,20 @@ namespace Nightmare
         AudioSource gunAudio;
 
         float effectsDisplayTime = 0.2f;
-  
+
         private UnityAction listener;
-        private Animator playerAnimator;
 
         [Header("Shotgun")]
         [SerializeField] bool shotgun = false;
         [SerializeField] int bulletsPerShot = 6;
 
-        [Header("Sword")]
-        [SerializeField] bool sword = false;
-
         [Header("Laser")]
         [SerializeField] GameObject laser;
 
-        void Awake ()
+        void Awake()
         {
             // Create a layer mask for the Shootable layer.
-            shootableMask = LayerMask.GetMask ("Shootable");
+            shootableMask = LayerMask.GetMask("Shootable");
 
             // Set up the references.
             gunParticles = GetComponent<ParticleSystem> ();
@@ -75,7 +71,7 @@ namespace Nightmare
             StopPausible();
         }
 
-        void Update ()
+        void Update()
         {
             //if (isPaused)
             //    return;
@@ -116,7 +112,7 @@ namespace Nightmare
                     Shoot();
                 }
             }
-            
+
 #else
             // If there is input on the shoot direction stick and it's time to fire...
             if ((CrossPlatformInputManager.GetAxisRaw("Mouse X") != 0 || CrossPlatformInputManager.GetAxisRaw("Mouse Y") != 0) && timer >= timeBetweenBullets)
@@ -162,7 +158,7 @@ namespace Nightmare
         }
 
 
-        void Shoot ()
+        void Shoot()
         {
             // Reset the timer.
             timer = 0f;
@@ -170,12 +166,12 @@ namespace Nightmare
             // Play the gun shot audioclip.
             if (gunAudio != null)
             {
-                gunAudio.Play ();
+                gunAudio.Play();
             }
 
             // Stop the particles from playing if they were, then start the particles.
-            gunParticles.Stop ();
-            gunParticles.Play ();
+            gunParticles.Stop();
+            gunParticles.Play();
 
 
             // Set the shootRay so that it starts at the end of the gun and points forward from the barrel.
@@ -208,22 +204,6 @@ namespace Nightmare
                         // ... set the second position of the line renderer to the fullest extent of the gun's range.
                         //gunLine.SetPosition(1, shootRay.origin + shootRay.direction * range);
                         CreateLaser(shootRay.origin + shootingDir * range);
-                    }
-                }
-            }
-            else if(sword) {
-                Vector3 shootingDir = GetShootingDirection();
-                // Perform the raycast against gameobjects on the shootable layer and if it hits something...
-                if (Physics.Raycast(shootRay.origin, shootingDir, out shootHit, range, shootableMask))
-                {
-                    // Try and find an EnemyHealth script on the gameobject hit.
-                    EnemyHealthSimple enemyHealth = shootHit.collider.GetComponent<EnemyHealthSimple>();
-
-                    // If the EnemyHealth component exist...
-                    if (enemyHealth != null)
-                    {
-                        // ... the enemy should take damage.
-                        enemyHealth.TakeDamage(damagePerShot, shootHit.point);
                     }
                 }
             }
@@ -267,12 +247,15 @@ namespace Nightmare
 
         void CreateLaser(Vector3 end)
         {
-            Light light = Instantiate(laser).GetComponent<Light>();
-            light.enabled = true;
-            LineRenderer lr = Instantiate(laser).GetComponent<LineRenderer>();
-            lr.enabled = true;
-            lr.SetPositions(new Vector3[2] {transform.position, end});
-            StartCoroutine(DestroyLaserAfterDelay(lr.gameObject, light.gameObject));
+            if (laser != null)
+            {
+                Light light = Instantiate(laser).GetComponent<Light>();
+                light.enabled = true;
+                LineRenderer lr = Instantiate(laser).GetComponent<LineRenderer>();
+                lr.enabled = true;
+                lr.SetPositions(new Vector3[2] { transform.position, end });
+                StartCoroutine(DestroyLaserAfterDelay(lr.gameObject, light.gameObject));
+            }
         }
 
         IEnumerator DestroyLaserAfterDelay(GameObject lrGameObject, GameObject lightGameObject)

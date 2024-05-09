@@ -255,6 +255,7 @@ public class PlayerMovementSimple : MonoBehaviour
         }
     }
 
+
     public void RegisterWeakenSpeed(float maxSpeedWeakened, float speedWeakenStep)
     {
         if (playerHealth.godMode)
