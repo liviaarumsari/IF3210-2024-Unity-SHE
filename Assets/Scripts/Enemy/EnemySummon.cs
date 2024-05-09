@@ -15,7 +15,7 @@ public class EnemySummon : MonoBehaviour
     GameObject player;
     Transform parentTransform;
     Animator anim;
-    EnemyMovementMelee enemyMovement;
+    EnemyMovementRanged enemyMovement;
 
     void Start()
     {
@@ -24,7 +24,7 @@ public class EnemySummon : MonoBehaviour
 
         parentTransform = GetComponent<Transform>();
         anim = GetComponent<Animator>();
-        enemyMovement = GetComponent<EnemyMovementMelee>();
+        enemyMovement = GetComponent<EnemyMovementRanged>();
 
         InvokeRepeating("StartSummonAnim", startDelay, waitTime);
     }

@@ -57,7 +57,6 @@ namespace Nightmare
             gunParticles = GetComponent<ParticleSystem> ();
             gunAudio = GetComponent<AudioSource> ();
 
-            playerAnimator = GetComponentInParent<Animator>();
             playerHealth = GetComponentInParent<PlayerHealth>();
 
             weakenTimer = timeBetweenWeaken;

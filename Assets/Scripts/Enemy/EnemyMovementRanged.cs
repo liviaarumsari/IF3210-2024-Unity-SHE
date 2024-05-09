@@ -16,7 +16,7 @@ namespace Nightmare
         bool isSpawned = false;
 
         EnemyAoEWeaken enemyAoEWeaken;
-        EnemyAttackMelee enemyAttack;
+        EnemyAttackRanged enemyAttack;
 
         void Awake ()
         {
@@ -28,13 +28,13 @@ namespace Nightmare
             enemyHealth = GetComponent<EnemyHealthSimple>();
 
             enemyAoEWeaken = GetComponent<EnemyAoEWeaken>();
-            enemyAttack = GetComponent<EnemyAttackMelee>();
+            enemyAttack = GetComponent<EnemyAttackRanged>();
 
             if (enemyAoEWeaken == null)
                 enemyAoEWeaken = GetComponentInChildren<EnemyAoEWeaken>();
 
             if (enemyAttack == null)
-                enemyAttack = GetComponentInChildren<EnemyAttackMelee>();
+                enemyAttack = GetComponentInChildren<EnemyAttackRanged>();
         }
 
         void Update ()
