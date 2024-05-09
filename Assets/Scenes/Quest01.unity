@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.080456935, g: 0.09983334, b: 0.30109408, a: 1}
+  m_IndirectSpecularColor: {r: 0.080344796, g: 0.09974265, b: 0.3011505, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -387,7 +387,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.25
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 4d1734819e460ef46b09f27b854fbbbc, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 8990d74949c3a824cacbb0b19f9af419, type: 2}
   m_BuildHeightMesh: 0
 --- !u!4 &527642863
 Transform:
@@ -1284,6 +1284,10 @@ PrefabInstance:
       propertyPath: healthSlider
       value: 
       objectReference: {fileID: 1574794432}
+    - target: {fileID: 8837602571499588349, guid: 5fcee82e62c55af4bad26c0b3553b1d6, type: 3}
+      propertyPath: startingHealth
+      value: 100
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
