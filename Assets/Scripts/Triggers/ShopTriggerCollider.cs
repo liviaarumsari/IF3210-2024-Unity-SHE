@@ -11,7 +11,8 @@ public class ShopTriggerArea : MonoBehaviour
     {
         Component[] components = other.gameObject.GetComponents(typeof(Component));
         IShopCustomer customer = other.GetComponent<IShopCustomer>();
-        if (customer != null )
+        Debug.Log("[DEBUG] is shop within time" + shopUi.isWithinTime);
+        if (customer != null && shopUi.isWithinTime)
         {
             shopMsg.Show();
             customer.SetInShopArea(true);

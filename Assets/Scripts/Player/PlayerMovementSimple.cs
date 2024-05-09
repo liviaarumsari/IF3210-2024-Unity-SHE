@@ -241,7 +241,7 @@ public class PlayerMovementSimple : MonoBehaviour
         {
             shopUi.Show(customer);
         }
-        else if (customer != null)
+        else if (customer != null && shopUi.isWithinTime)
         {
             StartCoroutine(ShowShopNotInRange(1.5f));
         }

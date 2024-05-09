@@ -2794,6 +2794,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shopMsg: {fileID: 114498967}
+  isWithinTime: 0
 --- !u!1 &1061473163
 GameObject:
   m_ObjectHideFlags: 0
@@ -5173,6 +5174,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1556585289}
   m_CullTransparentMesh: 1
+--- !u!1 &1562040557 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3683254564479900553, guid: 3abac838ae58d664cac632c65bfdb24a, type: 3}
+  m_PrefabInstance: {fileID: 2002498503}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1562040559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1562040557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a90a3abe598532442958c05da9bc2d5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shopUi: {fileID: 0}
 --- !u!1 &1608693329
 GameObject:
   m_ObjectHideFlags: 0
@@ -6159,6 +6178,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1593087267760444688, guid: 3abac838ae58d664cac632c65bfdb24a, type: 3}
+      propertyPath: m_text
+      value: "Time to shop: \n00:00"
+      objectReference: {fileID: 0}
     - target: {fileID: 2351938101828750905, guid: 3abac838ae58d664cac632c65bfdb24a, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -6258,7 +6281,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3683254564479900553, guid: 3abac838ae58d664cac632c65bfdb24a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1562040559}
   m_SourcePrefab: {fileID: 100100000, guid: 3abac838ae58d664cac632c65bfdb24a, type: 3}
 --- !u!1 &2083355255 stripped
 GameObject:

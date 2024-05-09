@@ -8,18 +8,19 @@ using UnityEngine.UI;
 public class ShopUI : MonoBehaviour
 {
     [SerializeField] private BannerMsg shopMsg;
-    private Transform petsContainer;
     private IShopCustomer customer;
-    private Button closeBtn;
+    public bool isWithinTime = true;
 
     private void Awake()
     {
-        petsContainer = transform.Find("PetsContainer");
     }
 
     private void Start()
     {
+        Debug.Log("[DEBUG] start is within time" + isWithinTime);
         Hide();
+        isWithinTime = true;
+        Debug.Log("[DEBUG] start is within time 2" + isWithinTime);
     }
 
     // Start is called before the first frame update
@@ -30,11 +31,15 @@ public class ShopUI : MonoBehaviour
         
     }
 
+
     public void Show(IShopCustomer customer)
     {
-        shopMsg.Hide(); 
-        this.customer = customer;
-        gameObject.SetActive(true);
+        if (isWithinTime)
+        {
+            shopMsg.Hide();
+            this.customer = customer;
+            gameObject.SetActive(true);
+        }
     }
 
     public void Hide()
