@@ -27,4 +27,10 @@ public class MainMenu : MonoBehaviour
     {
         loadPanel.gameObject.SetActive(true);
     }
+
+    public void ExitGame()
+    {
+        Debug.Log("Exit");
+        Application.Quit();
+    }
 }
