@@ -71,6 +71,8 @@ namespace Nightmare
                 enemyAudio.Play();
                 currentHealth -= amount;
 
+                gameManager.currentGameState.OnShotOnTarget();
+
                 if (IsDead())
                 {
                     Death();
