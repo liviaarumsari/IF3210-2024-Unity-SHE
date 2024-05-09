@@ -59,6 +59,10 @@ public class GameState
         startTime.DateTime = DateTime.Now;
         lastStartTime = startTime;
         LoadCurrentStage();
+
+        // TODO: remove debugging line
+        Debug.Log("NAME: " + playerName);
+        Debug.Log("DIFF LEV: " + difficultyLevel);
     }
 
     public void SaveGame()
@@ -94,6 +98,8 @@ public class GameState
         AddPlayDuration(endTime.DateTime, lastStartTime.DateTime);
 
         // TODO: remove debugging line
+        Debug.Log("Player name: " + playerName);
+        Debug.Log("Diff: " + difficultyLevel);
         Debug.Log("HEALTH: " + health);
         Debug.Log("SCORE: " + score);
         Debug.Log("ShotOnTarget: " + shotsOnTarget);
