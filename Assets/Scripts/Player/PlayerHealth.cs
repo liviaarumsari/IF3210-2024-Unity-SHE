@@ -11,9 +11,11 @@ namespace Nightmare
         public int currentHealth;
         public Slider healthSlider;
         public Image damageImage;
+        public Image healImage;
         public AudioClip deathClip;
         public float flashSpeed = 5f;
         public Color flashColour = new Color(1f, 0f, 0f, 0.1f);
+        public Color healColour = new Color(0f, 1f, 0f, 0.1f);
         public bool godMode = false;
 
         Animator anim;
@@ -22,6 +24,7 @@ namespace Nightmare
          PlayerShooting playerShooting;
         bool isDead;
         bool damaged;
+        bool healed;
 
         void Awake()
         {
@@ -63,6 +66,16 @@ namespace Nightmare
 
             // Reset the damaged flag.
             damaged = false;
+
+            if (healed)
+            {
+                damageImage.color = healColour;
+            }
+            else
+            {
+                damageImage.color = Color.Lerp(damageImage.color, Color.clear, flashSpeed * Time.deltaTime);
+            }
+            healed = false;
         }
 
 
@@ -89,6 +102,20 @@ namespace Nightmare
                 // ... it should die.
                 Death();
             }
+        }
+
+        public void TakeHeal(int amount)
+        {   
+            // if player's not dead yet
+            if (currentHealth > 0)
+            {
+                healed = true;
+
+                currentHealth += amount;
+
+                healthSlider.value = currentHealth;
+            }
+           
         }
 
         void Death()
