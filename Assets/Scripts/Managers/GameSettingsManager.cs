@@ -17,11 +17,6 @@ public class GameSettingsManager : MonoBehaviour
     public static GameSettingsManager Instance { get; private set; }
 
     // UI References
-    public Button lowDifficultyButton;
-    public Button mediumDifficultyButton;
-    public Button highDifficultyButton;
-    public TMPro.TMP_InputField playerNameInputField;
-    public Slider volumeSlider;
     public AudioSource backgroundMusic;
 
     // Constants
@@ -33,15 +28,10 @@ public class GameSettingsManager : MonoBehaviour
     const string DEFAULT_PLAYER_NAME = "Karina";
     const float DEFAULT_VOLUME = 1f;
 
-    const float DEFAULT_OPACITY = 1f;
-    const float NOT_SELECTED_OPACITY = 0.4f;
-
     // Private Variables
     DifficultyLevel difficultyLevel;
     string playerName;
     float volume;
-
-    Dictionary<DifficultyLevel, Button> difficultyButtons = new Dictionary<DifficultyLevel, Button>();
 
     void Awake()
     {
@@ -49,13 +39,8 @@ public class GameSettingsManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-
-            // Initialize the difficulty buttons dictionary
-            difficultyButtons[DifficultyLevel.Low] = lowDifficultyButton;
-            difficultyButtons[DifficultyLevel.Medium] = mediumDifficultyButton;
-            difficultyButtons[DifficultyLevel.High] = highDifficultyButton;
-
-            LoadVolume();
+            
+            LoadSettings();
             SetBackgroundMusicVolume();
         }
         else
@@ -74,15 +59,17 @@ public class GameSettingsManager : MonoBehaviour
         SaveSettings();
     }
 
+    void SetBackgroundMusicVolume()
+    {
+        backgroundMusic.volume = volume;
+    }
+
     // Load
     public void LoadSettings()
     {
+        LoadVolume();
         LoadDifficultyLevel();
-
         LoadPlayerName();
-        SetPlayerNameInputField();
-
-        SetVolumeSlider();
     }
 
     void LoadDifficultyLevel()
@@ -98,25 +85,10 @@ public class GameSettingsManager : MonoBehaviour
         SetPlayerName(loadedPlayerName);
     }
 
-    void SetPlayerNameInputField()
-    {
-        playerNameInputField.SetTextWithoutNotify(playerName);
-    }
-
     void LoadVolume()
     {
         float loadedVolume = PlayerPrefs.GetFloat(VOLUME_KEY, DEFAULT_VOLUME);
         SetVolume(loadedVolume);
-    }
-
-    void SetVolumeSlider()
-    {
-        volumeSlider.SetValueWithoutNotify(volume);
-    }
-
-    void SetBackgroundMusicVolume()
-    {
-        backgroundMusic.volume = volume;
     }
 
     // Save
@@ -143,21 +115,23 @@ public class GameSettingsManager : MonoBehaviour
     }
 
     // Setter
-    void SetDifficultyLevel(DifficultyLevel newDifficultyLevel)
+    public void SetDifficultyLevel(DifficultyLevel newDifficultyLevel)
     {
+        Debug.Log("Diff: " + newDifficultyLevel);
         difficultyLevel = newDifficultyLevel;
-        UpdateButtonOpacities(newDifficultyLevel);
         SaveDifficultyLevel();
     }
 
     public void SetPlayerName(string newPlayerName)
     {
+        Debug.Log("Name: " + newPlayerName);
         playerName = newPlayerName;
         SavePlayerName();
     }
 
     public void SetVolume(float newVolume)
     {
+        Debug.Log("Vol: " + newVolume);
         volume = newVolume;
         SaveVolume();
     }
@@ -176,37 +150,5 @@ public class GameSettingsManager : MonoBehaviour
     public float GetVolume()
     {
         return volume;
-    }
-
-    // Button Event Handler
-    public void OnLowButtonClicked()
-    {
-        SetDifficultyLevel(DifficultyLevel.Low);
-    }
-
-    public void OnMediumButtonClicked()
-    {
-        SetDifficultyLevel(DifficultyLevel.Medium);
-    }
-
-    public void OnHighButtonClicked()
-    {
-        SetDifficultyLevel(DifficultyLevel.High);
-    }
-
-    // Buttons Opacity Related
-    void UpdateButtonOpacities(DifficultyLevel selectedDifficulty)
-    {
-        foreach (var pair in difficultyButtons)
-        {
-            SetButtonOpacity(pair.Value, pair.Key == selectedDifficulty ? DEFAULT_OPACITY : NOT_SELECTED_OPACITY);
-        }
-    }
-
-    void SetButtonOpacity(Button button, float opacity)
-    {
-        Color color = button.image.color;
-        color.a = opacity;
-        button.image.color = color;
     }
 }
