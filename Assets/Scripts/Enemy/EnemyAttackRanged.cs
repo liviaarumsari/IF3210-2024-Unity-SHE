@@ -3,7 +3,7 @@ using System.Collections;
 
 namespace Nightmare
 {
-    public class EnemyAttackSimple : MonoBehaviour
+    public class EnemyAttackRanged : MonoBehaviour
     {
         public float timeBetweenAttacks = 0.5f;
         public int attackDamage = 10;

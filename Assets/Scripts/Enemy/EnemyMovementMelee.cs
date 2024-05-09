@@ -5,16 +5,18 @@ using UnityEngine.Events;
 
 namespace Nightmare
 {
-    public class EnemyMovementSimple : MonoBehaviour
+    public class EnemyMovementMelee : MonoBehaviour
     {
         Transform player;
         Transform enemyTransform;
         PlayerHealth playerHealth;
         EnemyHealthSimple enemyHealth;
-        EnemyAttackMelee enemyAttack;
         NavMeshAgent nav;
         Animator anim;
         bool isSpawned = false;
+
+        EnemyAoEHealth enemyAoE;
+        EnemyAttackMelee enemyAttack;
 
         void Awake ()
         {
@@ -22,9 +24,18 @@ namespace Nightmare
             player = GameObject.FindGameObjectWithTag ("Player").transform;
             playerHealth = player.GetComponent<PlayerHealth> ();
             enemyTransform = GetComponent<Transform>();
-            enemyAttack = GetComponent<EnemyAttackMelee>();
-            enemyHealth = GetComponent<EnemyHealthSimple> ();
             nav = GetComponent<NavMeshAgent>();
+            enemyHealth = GetComponent<EnemyHealthSimple> ();
+
+            enemyAoE= GetComponent<EnemyAoEHealth>();
+            enemyAttack = GetComponent<EnemyAttackMelee>();
+
+            if (enemyAoE == null)
+                enemyAoE = GetComponentInChildren<EnemyAoEHealth>();
+
+            if (enemyAttack == null)
+                enemyAttack = GetComponentInChildren<EnemyAttackMelee>();
+            
         }
 
         void Update ()
@@ -43,7 +54,12 @@ namespace Nightmare
         {
             isSpawned = true;
             nav.enabled = true;
-            enemyAttack.FinishSpawnAnimAttack();
+
+            if (enemyAttack != null)
+                enemyAttack.FinishSpawnAnimAttack();
+
+            if (enemyAoE != null)
+                enemyAoE.FinishSpawnAnimAoE();
         }
 
         private void OnDisable()
