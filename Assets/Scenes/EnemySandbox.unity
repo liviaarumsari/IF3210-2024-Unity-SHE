@@ -1184,6 +1184,17 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 155619666}
   m_Mesh: {fileID: -6771101535060161660, guid: 135fa340b65c75f4baf2068625e534ec, type: 3}
+--- !u!114 &179829015 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6726376789251691291, guid: 3abac838ae58d664cac632c65bfdb24a, type: 3}
+  m_PrefabInstance: {fileID: 1082786271}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &183737850
 GameObject:
   m_ObjectHideFlags: 0
@@ -1533,6 +1544,17 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 354263816}
   m_Mesh: {fileID: -6771101535060161660, guid: 135fa340b65c75f4baf2068625e534ec, type: 3}
+--- !u!114 &382999735 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4699538037916118075, guid: 3abac838ae58d664cac632c65bfdb24a, type: 3}
+  m_PrefabInstance: {fileID: 1082786271}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &427190735
 GameObject:
   m_ObjectHideFlags: 0
@@ -2176,7 +2198,7 @@ MonoBehaviour:
   speedWeakenStep: 1
   maxSpeedWeakened: 0
   weakenAttackStep: 1
-  maxAttackWeakened: 5
+  maxAttackWeakened: 10
 --- !u!135 &566037663
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -2815,6 +2837,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2934508129741288123, guid: 5fcee82e62c55af4bad26c0b3553b1d6, type: 3}
+      propertyPath: m_Name
+      value: GunBarrelEnd (Shotty)
+      objectReference: {fileID: 0}
     - target: {fileID: 6622397034692892461, guid: 5fcee82e62c55af4bad26c0b3553b1d6, type: 3}
       propertyPath: m_Name
       value: PlayerSimple
@@ -2859,7 +2885,24 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 6653497937568943436, guid: 5fcee82e62c55af4bad26c0b3553b1d6, type: 3}
+      propertyPath: m_Name
+      value: GunBarrelEnd (Default)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7063461255459896451, guid: 5fcee82e62c55af4bad26c0b3553b1d6, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8837602571499588349, guid: 5fcee82e62c55af4bad26c0b3553b1d6, type: 3}
+      propertyPath: damageImage
+      value: 
+      objectReference: {fileID: 382999735}
+    - target: {fileID: 8837602571499588349, guid: 5fcee82e62c55af4bad26c0b3553b1d6, type: 3}
+      propertyPath: healthSlider
+      value: 
+      objectReference: {fileID: 179829015}
+    m_RemovedComponents:
+    - {fileID: 7063461255459896451, guid: 5fcee82e62c55af4bad26c0b3553b1d6, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

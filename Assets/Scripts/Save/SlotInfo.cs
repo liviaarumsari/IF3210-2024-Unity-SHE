@@ -22,7 +22,7 @@ public class SlotInfo : MonoBehaviour
         Debug.Log("[DEBUG] masuk SET GAME STATE");
         SetTextField("Quest", "Quest " + gameState.GetStageName());
         Debug.Log("DEBUG DATA SAVED: " + gameState.lastSavedTime.ToString());
-        SetTextField("DateSaved", gameState.lastSavedTime.ToString("dd/MM/yy"));  
+        SetTextField("DateSaved", gameState.lastSavedTime.DateTime.ToString("dd/MM/yy"));  
     }
 
     void SetTextField(string objectName, string value)

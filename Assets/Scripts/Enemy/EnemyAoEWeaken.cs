@@ -20,7 +20,7 @@ namespace Nightmare
         GameObject player;
         PlayerHealth playerHealth;
         PlayerMovementSimple playerMovement;
-        PlayerShooting playerShooting;
+        PlayerShooting[] playerShootingList;
 
         EnemyHealthSimple enemyHealth;
         bool isSpawned = false;
@@ -33,7 +33,7 @@ namespace Nightmare
             player = GameObject.FindGameObjectWithTag("Player");
             playerHealth = player.GetComponent<PlayerHealth>();
             playerMovement = player.GetComponent<PlayerMovementSimple>();
-            playerShooting = player.GetComponentInChildren<PlayerShooting>();
+            playerShootingList = Resources.FindObjectsOfTypeAll<PlayerShooting>();
             enemyHealth = GetComponentInParent<EnemyHealthSimple>();
         }
 
@@ -61,7 +61,11 @@ namespace Nightmare
             {
                 playerHealth.RegisterWeakenHealth(maxHealthWeakened, weakenHealthStep);
                 playerMovement.RegisterWeakenSpeed(maxSpeedWeakened, speedWeakenStep);
-                playerShooting.RegisterWeakenDamage(maxAttackWeakened, weakenAttackStep);
+                foreach (var playerShooting in playerShootingList)
+                {
+                    if (playerShooting != null)
+                        playerShooting.RegisterWeakenDamage(maxAttackWeakened, weakenAttackStep);
+                }
 
                 registered = true;
             }
@@ -70,7 +74,11 @@ namespace Nightmare
             {
                 playerHealth.UnregisterWeakenHealth(maxHealthWeakened, weakenHealthStep);
                 playerMovement.UnregisterWeakenSpeed(maxSpeedWeakened, speedWeakenStep);
-                playerShooting.UnregisterWeakenDamage(maxAttackWeakened, weakenAttackStep);
+                foreach (var playerShooting in playerShootingList)
+                {
+                    if (playerShooting != null)
+                        playerShooting.UnregisterWeakenDamage(maxAttackWeakened, weakenAttackStep);
+                }
 
                 registered = false;
             }
