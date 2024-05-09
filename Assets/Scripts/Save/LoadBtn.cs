@@ -1,18 +1,13 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class SlotBtn : MonoBehaviour
+public class LoadBtn : MonoBehaviour
 {
     private int slot;
     GameManager gameManager;
     [SerializeField] private SlotInfo slotInfo;
-    [SerializeField] private Image plusIcon;
-    [SerializeField] private SavePanel saveUI;
-    [SerializeField] private Image currentText;
+    [SerializeField] private LoadPanel loadPanel;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,7 +20,7 @@ public class SlotBtn : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     void CheckSlot()
@@ -36,18 +31,16 @@ public class SlotBtn : MonoBehaviour
         if (isSlotTaken)
         {
             slotInfo.SetGameState(gameStates[slot]);
-            plusIcon.gameObject.SetActive(false);   
-        } else
-        {
-            plusIcon.gameObject.SetActive(true);    
-            slotInfo.gameObject.SetActive(false);
         }
-
-        currentText.gameObject.SetActive(GameManager.Instance.currentGameState == gameStates[slot]);
+        else
+        {
+            Debug.Log("[DEBUG] slot" + slot + "NOT TAKEN");
+            slotInfo.SetEmpty();
+        }
     }
 
     public void OnClick()
     {
-        saveUI.SetSelectedSlot(slot);   
+        loadPanel.SetSelectedSlot(slot);
     }
 }

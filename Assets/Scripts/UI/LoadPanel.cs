@@ -1,18 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class SaveUI : MonoBehaviour
+public class LoadPanel : MonoBehaviour
 {
-    [SerializeField] private BannerMsg saveMsg;
     private int selectedSlot;
 
     private void Awake()
     {
-        
+
     }
 
     private void Start()
@@ -30,7 +26,6 @@ public class SaveUI : MonoBehaviour
 
     public void Show()
     {
-        saveMsg.Hide();
         gameObject.SetActive(true);
     }
 
@@ -42,13 +37,12 @@ public class SaveUI : MonoBehaviour
     public void SetSelectedSlot(int slot)
     {
         selectedSlot = slot;
-        Debug.Log("current slot");
     }
 
 
-    public void OnSaveBtnClick()
+    public void OnLoadBtnClick()
     {
-        Debug.Log("[DEBUG] Saving slot: " +  selectedSlot);
-        GameManager.Instance.SaveCurrentGame(selectedSlot);
+        GameManager.Instance.LoadSavedGame(selectedSlot);
+        Hide();
     }
 }

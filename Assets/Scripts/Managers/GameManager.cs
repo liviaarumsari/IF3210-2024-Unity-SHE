@@ -35,6 +35,10 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         gameSettingsManager = GameSettingsManager.Instance;
+        for (int i = 0; i < savedGameStates.Length; i++)
+        {
+            LoadGameState(i);
+        }
     }
 
     public void StartNewGame()
@@ -100,10 +104,6 @@ public class GameManager : MonoBehaviour
 
     public GameState[] GetAllSavedStates()
     {
-        for (int i = 0; i < savedGameStates.Length; i++)
-        {
-            LoadGameState(i);
-        }
         return savedGameStates;
     }
 }
