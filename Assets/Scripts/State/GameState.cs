@@ -130,14 +130,14 @@ public class GameState
         SceneManager.LoadScene(Scene.GetSceneName(GameConfig.StageToSceneName[currentStage]));
     }
 
-    public void UpdateScore(int newScore)
+    public void AddScore(int addedScore)
     {
-        score = newScore;
+        score += addedScore;
     }
 
-    public void UpdateHealth(int newHealth)
+    public void AddHealth(int addedHealth)
     {
-        health = newHealth;
+        health += addedHealth;
     }
 
     public void OnShot()
