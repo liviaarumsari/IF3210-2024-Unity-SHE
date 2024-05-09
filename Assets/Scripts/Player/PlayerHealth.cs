@@ -148,6 +148,7 @@ namespace Nightmare
             playerAudio.Play();
 
             gameManager.currentGameState.health = currentHealth;
+            gameManager.currentGameState.AddDamageReceived(amount);
 
             if (currentHealth <= 0 && !isDead)
             {
