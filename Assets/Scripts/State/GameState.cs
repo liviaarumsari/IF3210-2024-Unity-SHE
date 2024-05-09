@@ -93,6 +93,10 @@ public class GameState
         currentStage = endStage;
         AddPlayDuration(endTime.DateTime, lastStartTime.DateTime);
 
+        // TODO: remove debugging line
+        Debug.Log("HEALTH: " + health);
+        Debug.Log("SCORE: " + score);
+
         gameStatisticsManager.AddStatistics(this);
 
         LoadCurrentStage();
@@ -130,14 +134,14 @@ public class GameState
         SceneManager.LoadScene(Scene.GetSceneName(GameConfig.StageToSceneName[currentStage]));
     }
 
-    public void UpdateScore(int newScore)
+    public void AddScore(int addedScore)
     {
-        score = newScore;
+        score += addedScore;
     }
 
-    public void UpdateHealth(int newHealth)
+    public void AddHealth(int addedHealth)
     {
-        health = newHealth;
+        health += addedHealth;
     }
 
     public void OnShot()

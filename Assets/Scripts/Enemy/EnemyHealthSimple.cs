@@ -4,6 +4,8 @@ namespace Nightmare
 {
     public class EnemyHealthSimple : MonoBehaviour
     {
+        GameManager gameManager;
+
         public int startingHealth = 100;
         public int currentHealth;
         public float sinkSpeed = 2.5f;
@@ -29,6 +31,8 @@ namespace Nightmare
             //enemyMovement = GetComponent<EnemyMovementSimple>();
 
             currentHealth = startingHealth;
+
+            gameManager = GameManager.Instance;
         }
 
         void OnEnable()
@@ -104,7 +108,7 @@ namespace Nightmare
             if (sphereCollider != null)
                 sphereCollider.enabled = false;
 
-            ScoreManager.score += scoreValue;
+            gameManager.currentGameState.AddScore(scoreValue);
             Invoke("Sink", 1f);
         }
 
