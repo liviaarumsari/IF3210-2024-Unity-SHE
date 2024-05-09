@@ -2,6 +2,9 @@
 using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Nightmare
 {
@@ -9,6 +12,8 @@ namespace Nightmare
     {
         public int startingHealth = 100;
         public int currentHealth;
+        int unweakenedHealth;
+
         public Slider healthSlider;
         public Image damageImage;
         public AudioClip deathClip;
@@ -19,9 +24,18 @@ namespace Nightmare
         Animator anim;
         AudioSource playerAudio;
         PlayerMovementSimple playerMovement;
-         PlayerShooting playerShooting;
+        PlayerShooting playerShooting;
         bool isDead;
         bool damaged;
+
+        public float timeBetweenWeaken = 0.5f;
+        public int healthRegenStep = 2;
+
+        int maxHealthWeakened = 0;
+        List<int> maxHealthWeakenedList = new List<int>();
+        int healthWeakenStep = 0;
+        float weakenTimer;
+        bool isWeakenOrRegen = false;
 
         void Awake()
         {
@@ -30,6 +44,7 @@ namespace Nightmare
             playerAudio = GetComponent<AudioSource>();
             playerMovement = GetComponent<PlayerMovementSimple>();
             playerShooting = GetComponentInChildren<PlayerShooting>();
+            weakenTimer = timeBetweenWeaken;
 
             ResetPlayer();
         }
@@ -38,6 +53,7 @@ namespace Nightmare
         {
             // Set the initial health of the player.
             currentHealth = startingHealth;
+            unweakenedHealth = currentHealth;
 
             playerMovement.enabled = true;
             //playerShooting.enabled = true;
@@ -48,47 +64,106 @@ namespace Nightmare
 
         void Update()
         {
-            // If the player has just been damaged...
+            if (isWeakenOrRegen)
+                weakenTimer += Time.deltaTime;
+
+            if (weakenTimer >= timeBetweenWeaken && Time.timeScale != 0)
+            {
+                if (isWeakenOrRegen)
+                    weakenTimer = 0;
+
+                if (healthWeakenStep > 0)
+                {
+                    Weaken();
+                }
+                else
+                {
+                    Unweaken();
+                }
+
+                if (isWeakenOrRegen && unweakenedHealth == currentHealth)
+                {
+                    isWeakenOrRegen = false;
+                    weakenTimer = timeBetweenWeaken;
+                }
+            }
+
             if (damaged)
             {
-                // ... set the colour of the damageImage to the flash colour.
                 damageImage.color = flashColour;
             }
-            // Otherwise...
             else
             {
-                // ... transition the colour back to clear.
                 damageImage.color = Color.Lerp(damageImage.color, Color.clear, flashSpeed * Time.deltaTime);
             }
 
-            // Reset the damaged flag.
             damaged = false;
         }
 
+        void Weaken()
+        {
+            int amount;
+            if (currentHealth - healthWeakenStep < unweakenedHealth - maxHealthWeakened)
+            {
+                amount = currentHealth - (unweakenedHealth - maxHealthWeakened);
+            }
+            else
+            {
+                amount = healthWeakenStep;
+            }
+
+            isWeakenOrRegen = true;
+            ReduceHealth(amount);
+        }
+
+        void Unweaken()
+        {
+            if (currentHealth == unweakenedHealth) return;
+
+            int amount;
+            if (currentHealth + healthRegenStep > unweakenedHealth)
+            {
+                amount = unweakenedHealth - currentHealth;
+            }
+            else
+            {
+                amount = healthRegenStep;
+            }
+
+            isWeakenOrRegen = true;
+            IncreaseHealth(amount);
+        }
+
+        void ReduceHealth(int amount)
+        {
+            damaged = true;
+
+            currentHealth -= amount;
+            healthSlider.value = currentHealth;
+
+            playerAudio.Play();
+
+            if (currentHealth <= 0 && !isDead)
+            {
+                Death();
+            }
+        }
+
+        void IncreaseHealth(int amount)
+        {
+            if (isDead) return;
+
+            currentHealth += amount;
+            healthSlider.value = currentHealth;
+        }
 
         public void TakeDamage(int amount)
         {
             if (godMode)
                 return;
 
-            // Set the damaged flag so the screen will flash.
-            damaged = true;
-
-            // Reduce the current health by the damage amount.
-            currentHealth -= amount;
-
-            // Set the health bar's value to the current health.
-            healthSlider.value = currentHealth;
-
-            // Play the hurt sound effect.
-            playerAudio.Play();
-
-            // If the player has lost all it's health and the death flag hasn't been set yet...
-            if (currentHealth <= 0 && !isDead)
-            {
-                // ... it should die.
-                Death();
-            }
+            ReduceHealth(amount);
+            unweakenedHealth -= amount;
         }
 
         void Death()
@@ -97,7 +172,7 @@ namespace Nightmare
             isDead = true;
 
             // Turn off any remaining shooting effects.
-             //playerShooting.DisableEffects();
+            //playerShooting.DisableEffects();
 
             // Tell the animator that the player is dead.
             anim.SetBool("IsDead", true);
@@ -108,12 +183,31 @@ namespace Nightmare
 
             // Turn off the movement and shooting scripts.
             playerMovement.enabled = false;
-             playerShooting.enabled = false;
+            playerShooting.enabled = false;
         }
 
         public void RestartLevel()
         {
             //EventManager.TriggerEvent("GameOver");
+        }
+
+        public void RegisterWeakenHealth(int maxHealthWeakened, int healthWeakenStep)
+        {
+            if (godMode)
+                return;
+
+            this.maxHealthWeakened = maxHealthWeakened > this.maxHealthWeakened ? maxHealthWeakened : this.maxHealthWeakened;
+            this.healthWeakenStep += healthWeakenStep;
+            maxHealthWeakenedList.Add(maxHealthWeakened);
+        }
+
+        public void UnregisterWeakenHealth(int maxHealthWeakened, int healthWeakenStep)
+        {
+            this.healthWeakenStep -= healthWeakenStep;
+
+            maxHealthWeakenedList.Remove(maxHealthWeakened);
+
+            this.maxHealthWeakened = maxHealthWeakenedList.Count > 0 ? maxHealthWeakenedList.Max() : 0;
         }
     }
 }

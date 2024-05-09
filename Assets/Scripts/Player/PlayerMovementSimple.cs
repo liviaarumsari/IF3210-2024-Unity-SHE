@@ -1,5 +1,7 @@
+using Nightmare;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnitySampleAssets.CrossPlatformInput;
@@ -9,7 +11,6 @@ public class PlayerMovementSimple : MonoBehaviour
     public float speed = 6f;            // The speed that the player will move at.
     public bool inShopArea = false;
     public bool inQuestArea = false;
-
 
     Vector3 movement;                   // The vector to store the direction of the player's movement.
     Animator anim;                      // Reference to the animator component.
@@ -23,6 +24,17 @@ public class PlayerMovementSimple : MonoBehaviour
     Vector3 lastPosition;
     GameState gameState;
 
+    public float timeBetweenWeaken = 0.5f;
+    public float speedRegenStep = 0.5f;
+
+    float unweakenedSpeed;
+    float maxSpeedWeakened = 0;
+    List<float> maxSpeedWeakenedList = new List<float>();
+    float speedWeakenStep = 0;
+    float weakenTimer;
+    bool isWeakenOrRegen = false;
+    PlayerHealth playerHealth;
+
     void Awake()
     {
         // Create a layer mask for the floor layer.
@@ -31,19 +43,81 @@ public class PlayerMovementSimple : MonoBehaviour
         // Set up references.
         anim = GetComponent<Animator>();
         playerRigidbody = GetComponent<Rigidbody>();
+        playerHealth = GetComponent<PlayerHealth>();
     }
 
     void Start()
     {
         //gameState = GameManager.Instance.currentGameState;
         lastPosition = transform.position;
+
+        weakenTimer = timeBetweenWeaken;
+        unweakenedSpeed = speed;
     }
 
     void Update()
     {
+        if (isWeakenOrRegen)
+            weakenTimer += Time.deltaTime;
+
+        if (weakenTimer >= timeBetweenWeaken && Time.timeScale != 0)
+        {
+            if (isWeakenOrRegen)
+                weakenTimer = 0;
+
+            if (speedWeakenStep > 0)
+            {
+                Weaken();
+            }
+            else
+            {
+                Unweaken();
+            }
+
+            if (isWeakenOrRegen && speed == unweakenedSpeed)
+            {
+                isWeakenOrRegen = false;
+                weakenTimer = timeBetweenWeaken;
+            }
+        }
+
         float distanceTravelled = Vector3.Distance(transform.position, lastPosition);
         //gameState.AddDistanceTravelled(distanceTravelled);
         lastPosition = transform.position;
+    }
+
+    void Weaken()
+    {
+        float amount;
+        if (speed - speedWeakenStep < unweakenedSpeed - maxSpeedWeakened)
+        {
+            amount = speed - (unweakenedSpeed - maxSpeedWeakened);
+        }
+        else
+        {
+            amount = speedWeakenStep;
+        }
+
+        isWeakenOrRegen = true;
+        speed -= amount;
+    }
+
+    void Unweaken()
+    {
+        if (speed == unweakenedSpeed) return;
+
+        float amount;
+        if (speed + speedRegenStep > unweakenedSpeed)
+        {
+            amount = unweakenedSpeed - speed;
+        }
+        else
+        {
+            amount = speedRegenStep;
+        }
+
+        isWeakenOrRegen = true;
+        speed += amount;
     }
 
     void FixedUpdate()
@@ -162,5 +236,22 @@ public class PlayerMovementSimple : MonoBehaviour
     private void HandleQuestStart()
     {
         //gameState.AdvanceToNextStage();
+    }
+
+    public void RegisterWeakenSpeed(float maxSpeedWeakened, float speedWeakenStep)
+    {
+        if (playerHealth.godMode)
+            return;
+
+        this.maxSpeedWeakened = maxSpeedWeakened > this.maxSpeedWeakened ? maxSpeedWeakened : this.maxSpeedWeakened;
+        this.speedWeakenStep += speedWeakenStep;
+        maxSpeedWeakenedList.Add(maxSpeedWeakened);
+    }
+
+    public void UnregisterWeakenSpeed(float maxSpeedWeakened, float speedWeakenStep)
+    {
+        this.speedWeakenStep -= speedWeakenStep;
+        maxSpeedWeakenedList.Remove(maxSpeedWeakened);
+        this.maxSpeedWeakened = maxSpeedWeakenedList.Count > 0 ? maxSpeedWeakenedList.Max() : 0;
     }
 }

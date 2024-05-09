@@ -4,6 +4,8 @@ using System.Text;
 using UnitySampleAssets.CrossPlatformInput;
 using System.Collections;
 using Unity.VisualScripting;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Nightmare
 {
@@ -15,6 +17,18 @@ namespace Nightmare
         [SerializeField] public float range = 100f;
 
         [SerializeField] float inaccuracyDistance = 5f;
+
+        [Header("AoE Weakening")]
+        [SerializeField] int damageRegenStep = 1;
+        [SerializeField] float timeBetweenWeaken = 0.5f;
+
+        int unweakenedDamage;
+        int maxDamageWeakened = 0;
+        List<int> maxDamageWeakenedList = new List<int>();
+        int weakenStep;
+        float weakenTimer;
+        bool isWeakenOrRegen = false;
+        PlayerHealth playerHealth;
 
         float timer;
         Ray shootRay = new Ray();
@@ -48,6 +62,10 @@ namespace Nightmare
             gunAudio = GetComponent<AudioSource> ();
 
             playerAnimator = GetComponentInParent<Animator>();
+            playerHealth = GetComponentInParent<PlayerHealth>();
+
+            weakenTimer = timeBetweenWeaken;
+            unweakenedDamage = damagePerShot;
 
             StartPausible();
         }
@@ -62,6 +80,31 @@ namespace Nightmare
             //if (isPaused)
             //    return;
 
+            if (isWeakenOrRegen)
+                weakenTimer += Time.deltaTime;
+
+            if (weakenTimer >= timeBetweenWeaken && Time.timeScale != 0)
+            {
+                if (isWeakenOrRegen)
+                    weakenTimer = 0;
+
+                Debug.Log("Update " + gameObject.name + " : " + weakenStep);
+                if (weakenStep > 0)
+                {
+                    Weaken();
+                }
+                else
+                {
+                    Unweaken();
+                }
+
+                if (isWeakenOrRegen && unweakenedDamage == damagePerShot)
+                {
+                    isWeakenOrRegen = false;
+                    weakenTimer = timeBetweenWeaken;
+                }
+            }
+
             // Add the time since Update was last called to the timer.
             timer += Time.deltaTime;
 
@@ -71,6 +114,7 @@ namespace Nightmare
                 if (Input.GetButton("Fire1"))
                 {
                     // ... shoot the gun.
+                    //Debug.Log(damagePerShot);
                     Shoot();
                 }
             }
@@ -83,6 +127,41 @@ namespace Nightmare
                 Shoot();
             }
 #endif
+        }
+
+        void Weaken()
+        {
+            int amount;
+            if (damagePerShot - weakenStep < unweakenedDamage - maxDamageWeakened)
+            {
+                amount = damagePerShot - (unweakenedDamage - maxDamageWeakened);
+            }
+            else
+            {
+                amount = weakenStep;
+            }
+
+            Debug.Log("Weaken");
+            isWeakenOrRegen = true;
+            damagePerShot -= amount;
+        }
+
+        void Unweaken()
+        {
+            if (damagePerShot == unweakenedDamage) return;
+
+            int amount;
+            if (damagePerShot + damageRegenStep > unweakenedDamage)
+            {
+                amount = unweakenedDamage - damagePerShot;
+            }
+            else
+            {
+                amount = damageRegenStep;
+            }
+
+            isWeakenOrRegen = true;
+            damagePerShot += amount;
         }
 
 
@@ -206,6 +285,26 @@ namespace Nightmare
             // Destroy the laser GameObjects
             Destroy(lrGameObject);
             Destroy(lightGameObject);
+        }
+
+        public void RegisterWeakenDamage(int maxDamageWeakened, int damageWeakenStepFunc)
+        {
+            if (playerHealth.godMode)
+                return;
+
+            this.maxDamageWeakened = maxDamageWeakened > this.maxDamageWeakened ? maxDamageWeakened : this.maxDamageWeakened;
+            weakenStep += damageWeakenStepFunc;
+            maxDamageWeakenedList.Add(maxDamageWeakened);
+            Debug.Log("Register " + gameObject.name + " : " + weakenStep);
+        }
+
+        public void UnregisterWeakenDamage(int maxDamageWeakened, int damageWeakenStep)
+        {
+            this.weakenStep -= damageWeakenStep;
+            maxDamageWeakenedList.Remove(maxDamageWeakened);
+
+            this.maxDamageWeakened = maxDamageWeakenedList.Count > 0 ? maxDamageWeakenedList.Max() : 0;
+            Debug.Log("Register " + gameObject.name + " : " + this.weakenStep);
         }
     }
 }

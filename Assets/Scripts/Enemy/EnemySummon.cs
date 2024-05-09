@@ -15,7 +15,7 @@ public class EnemySummon : MonoBehaviour
     GameObject player;
     Transform parentTransform;
     Animator anim;
-    EnemyMovementSimple enemyMovement;
+    EnemyMovementMelee enemyMovement;
 
     void Start()
     {
@@ -24,7 +24,7 @@ public class EnemySummon : MonoBehaviour
 
         parentTransform = GetComponent<Transform>();
         anim = GetComponent<Animator>();
-        enemyMovement = GetComponent<EnemyMovementSimple>();
+        enemyMovement = GetComponent<EnemyMovementMelee>();
 
         InvokeRepeating("StartSummonAnim", startDelay, waitTime);
     }
@@ -41,12 +41,10 @@ public class EnemySummon : MonoBehaviour
     {
         Vector2 randomPointOnCircle = Random.insideUnitCircle.normalized * spawnRadius;
         Vector3 randomPoint = parentTransform.position + new Vector3(randomPointOnCircle.x, 0, randomPointOnCircle.y);
-        Debug.Log(randomPoint);
         NavMeshHit hit;
 
         if (NavMesh.SamplePosition(randomPoint, out hit, spawnRadius, NavMesh.AllAreas))
         {
-            Debug.Log(hit.position);
             Instantiate(spawnableEnemy, new Vector3(hit.position.x, parentTransform.position.y, hit.position.z), parentTransform.rotation);
         }
     }

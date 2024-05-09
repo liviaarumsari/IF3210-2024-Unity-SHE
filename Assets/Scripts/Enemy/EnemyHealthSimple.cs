@@ -101,7 +101,8 @@ namespace Nightmare
             GetComponent <UnityEngine.AI.NavMeshAgent> ().enabled = false;
             SetKinematics(true);
             capsuleCollider.enabled = false;
-            sphereCollider.enabled = false;
+            if (sphereCollider != null)
+                sphereCollider.enabled = false;
 
             ScoreManager.score += scoreValue;
             Invoke("Sink", 1f);

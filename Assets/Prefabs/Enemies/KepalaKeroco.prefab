@@ -866,6 +866,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edaf8dc3d97f1c349a2d74ff7e8ea6b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyAoEHealth: {fileID: 0}
+  enemyAttack: {fileID: 0}
 --- !u!114 &645511823448235112
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -882,7 +884,6 @@ MonoBehaviour:
   spawnableEnemy: {fileID: 2611456302871236664, guid: 8c68b946dd78b494390cea981469f5d9, type: 3}
   startDelay: 3
   waitTime: 10
-  playerHealth: {fileID: 0}
 --- !u!195 &2474415115797864396
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -951,10 +952,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2
+  m_Radius: 0.8
+  m_Height: 3
   m_Direction: 1
-  m_Center: {x: 0, y: 1.2, z: 0}
+  m_Center: {x: 0, y: 0.8, z: 0}
 --- !u!135 &2206315579452703478
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -970,7 +971,7 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3

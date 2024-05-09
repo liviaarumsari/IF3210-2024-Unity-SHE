@@ -23,6 +23,12 @@ namespace Nightmare
             playerHealth = player.GetComponent <PlayerHealth> ();
             enemyHealth = GetComponent<EnemyHealthSimple>();
             anim = GetComponent <Animator> ();
+
+            if (enemyHealth == null)
+                enemyHealth = GetComponent<Transform>().parent.GetComponent<EnemyHealthSimple>();
+
+            if (anim == null)
+                anim = GetComponent<Transform>().parent.GetComponent<Animator>();
         }
 
         void OnTriggerEnter (Collider other)
