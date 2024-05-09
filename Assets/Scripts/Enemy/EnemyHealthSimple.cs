@@ -92,6 +92,8 @@ namespace Nightmare
 
             enemyAudio.clip = deathClip;
             enemyAudio.Play ();
+
+            gameManager.currentGameState.OnEnemyKilled();
         }
 
         void Sink()
