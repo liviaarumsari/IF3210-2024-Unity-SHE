@@ -35,8 +35,5 @@ public class GameInfo : MonoBehaviour
 
         // Update Score
         score.text = currentGameState.score.ToString();
-
-        // TODO: Update Timestamp Text
-        timestamp.text = DateTime.Now.ToString("HH:mm:ss");
     }
 }
