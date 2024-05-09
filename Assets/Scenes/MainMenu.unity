@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.1831921, g: 0.2267955, b: 0.29456183, a: 1}
+  m_IndirectSpecularColor: {r: 0.12731704, g: 0.13414727, b: 0.121078536, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2660,7 +2660,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 954935829}
         m_TargetAssemblyTypeName: GameSettingsManager, Assembly-CSharp
         m_MethodName: OnMediumButtonClicked
         m_Mode: 1
@@ -3621,7 +3621,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 954935829}
         m_TargetAssemblyTypeName: GameSettingsManager, Assembly-CSharp
         m_MethodName: OnLowButtonClicked
         m_Mode: 1
@@ -3773,7 +3773,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 954935829}
         m_TargetAssemblyTypeName: GameSettingsManager, Assembly-CSharp
         m_MethodName: SetVolume
         m_Mode: 0
@@ -3980,7 +3980,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &816617318
 Transform:
   m_ObjectHideFlags: 0
@@ -6052,7 +6052,7 @@ MonoBehaviour:
   m_CharacterValidation: 0
   m_RegexValue: 
   m_GlobalPointSize: 14
-  m_CharacterLimit: 0
+  m_CharacterLimit: 6
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls: []
@@ -6074,7 +6074,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 954935829}
         m_TargetAssemblyTypeName: GameSettingsManager, Assembly-CSharp
         m_MethodName: SetPlayerName
         m_Mode: 0
@@ -6727,7 +6727,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 954935829}
         m_TargetAssemblyTypeName: GameSettingsManager, Assembly-CSharp
         m_MethodName: OnHighButtonClicked
         m_Mode: 1
